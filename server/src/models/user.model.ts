@@ -55,3 +55,18 @@ export const userPasswordUpdateModel = z
   });
 
 export type UserPasswordUpdateType = z.infer<typeof userPasswordUpdateModel>;
+
+export const userDetailsUpdateModel = z.object({
+  name: z.string({
+    required_error: 'Name is required',
+    invalid_type_error: 'Name must be a string',
+  }),
+  email: z
+    .string({
+      required_error: 'Email is required',
+      invalid_type_error: 'Email must be a string',
+    })
+    .email(),
+});
+
+export type UserDetailsUpdateType = z.infer<typeof userDetailsUpdateModel>;
