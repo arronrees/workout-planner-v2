@@ -3,11 +3,13 @@ import {
   checkUserDetailsUpdateObjectValid,
   checkUserPasswordUpdateObjectValid,
   checkUserProfileUpdateObjectValid,
+  checkUserPreferencesUpdateObjectValid,
 } from '../middleware/user.middleware';
 import {
   updateUserDetailsController,
   updateUserPasswordController,
   updateUserProfileController,
+  updateUserPreferencesController,
 } from '../controllers/user.controller';
 
 export const userRouter = Router();
@@ -31,4 +33,11 @@ userRouter.put(
   '/update-profile',
   checkUserProfileUpdateObjectValid,
   updateUserProfileController
+);
+
+// update user preferences
+userRouter.put(
+  '/update-preferences',
+  checkUserPreferencesUpdateObjectValid,
+  updateUserPreferencesController
 );

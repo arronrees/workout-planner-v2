@@ -81,3 +81,18 @@ export const userProfileUpdateModel = z.object({
 });
 
 export type UserProfileUpdateType = z.infer<typeof userProfileUpdateModel>;
+
+export const userPreferencesUpdateModel = z.object({
+  theme: z.enum(['light', 'dark', 'system'], {
+    required_error: 'Theme is required',
+    invalid_type_error: 'Theme must be light, dark, or system',
+  }),
+  weightUnit: z.enum(['kg', 'lb'], {
+    required_error: 'Weight unit is required',
+    invalid_type_error: 'Weight unit must be kg or lb',
+  }),
+});
+
+export type UserPreferencesUpdateType = z.infer<
+  typeof userPreferencesUpdateModel
+>;

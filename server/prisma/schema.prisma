@@ -39,6 +39,17 @@ model UserProfile {
   avatarUrl String?  @db.VarChar(255)
 }
 
+enum WeightUnit {
+  kg
+  lb
+}
+
+enum Theme {
+  light
+  dark
+  system
+}
+
 model UserPreference {
   id         String   @id @unique @default(uuid())
   createdAt  DateTime @default(now())

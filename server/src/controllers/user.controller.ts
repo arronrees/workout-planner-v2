@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import {
   UserDetailsUpdateType,
   UserPasswordUpdateType,
+  UserPreferencesUpdateType,
   UserProfileUpdateType,
 } from '../models/user.model';
 import emailService from '../services/email.service';
@@ -137,10 +138,40 @@ export async function updateUserProfileController(
       return res.status(404).json({ success: false, error: 'User not found' });
     }
 
-    const updatedUser = await prismaDB.userProfile.update({
+    const updatedProfile = await prismaDB.userProfile.update({
       where: { userId: user.id },
       data: {
         avatarUrl: profile.avatarUrl,
+      },
+    });
+
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+
+    next(err);
+  }
+}
+
+export async function updateUserPreferencesController(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: ResLocals },
+  next: NextFunction
+) {
+  try {
+    const { user } = res.locals;
+    const { preferences }: { preferences: UserPreferencesUpdateType } =
+      req.body;
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    const updatedUser = await prismaDB.userPreference.update({
+      where: { userId: user.id },
+      data: {
+        theme: preferences.theme,
+        weightUnit: preferences.weightUnit,
       },
     });
 

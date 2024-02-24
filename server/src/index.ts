@@ -9,6 +9,7 @@ import { Request, Response } from 'express';
 import { authRouter } from './routes/auth.routes';
 import { userRouter } from './routes/user.routes';
 import { checkJwtExists } from './middleware/auth.middleware';
+import { __in_production } from './constants';
 
 export const prismaDB = new PrismaClient({
   errorFormat: 'pretty',
@@ -45,7 +46,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error('--- error handler');
   console.error(err);
 
-  res.status(500).json({ error: err.message });
+  res
+    .status(500)
+    .json({ error: __in_production ? '500 - Server error' : err.message });
 });
 
 app.listen(4000, () => {
