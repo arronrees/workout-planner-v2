@@ -10,6 +10,7 @@ import { pick } from 'lodash';
 import emailService from '../services/email.service';
 import randomstring from 'randomstring';
 import { JsonApiResponse } from '../constant.types';
+import { isValidUuid } from '../utils/index.utils';
 
 // POST /signup
 export async function signupUserController(
@@ -140,6 +141,63 @@ export async function signinUserController(
         ]),
         token,
       },
+    });
+  } catch (err) {
+    console.error(err);
+
+    next(err);
+  }
+}
+
+// POST /email/verify/:id/:token
+export async function verifyEmailController(
+  req: Request,
+  res: Response<JsonApiResponse>,
+  next: NextFunction
+) {
+  try {
+    const { id, token }: { id?: string; token?: string } = req.params;
+
+    if (!id || !token) {
+      return res
+        .status(400)
+        .json({ success: false, error: 'No ID or token provided' });
+    }
+
+    if (!isValidUuid(id)) {
+      return res.status(400).json({ success: false, error: 'Invalid ID' });
+    }
+
+    const user = await prismaDB.user.findUnique({ where: { id } });
+
+    console.log(user);
+
+    if (user) {
+      if (user.emailVerified) {
+        return res.status(200).json({ success: true });
+      }
+
+      if (user.emailVerificationString === token) {
+        await prismaDB.user.update({
+          where: { id },
+          data: { emailVerified: true, emailVerificationString: null },
+        });
+
+        res.status(200).json({ success: true });
+
+        // send email verified email
+        const verifiedEmailMessage = await emailService.sendEmailVerified({
+          email: user.email,
+          name: user.name,
+        });
+
+        return;
+      }
+    }
+
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid request',
     });
   } catch (err) {
     console.error(err);

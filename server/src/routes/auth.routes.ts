@@ -6,6 +6,7 @@ import {
 import {
   signinUserController,
   signupUserController,
+  verifyEmailController,
 } from '../controllers/auth.controller';
 
 export const authRouter = Router();
@@ -15,3 +16,6 @@ authRouter.post('/signup', checkUserSignupObjectValid, signupUserController);
 
 // user signin
 authRouter.post('/signin', checkUserSigninObjectValid, signinUserController);
+
+// user verify email address
+authRouter.post('/email/verify/:id/:token', verifyEmailController);
