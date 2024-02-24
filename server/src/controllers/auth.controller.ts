@@ -303,7 +303,16 @@ export async function resetPasswordController(
           data: { passwordResetString: null, password: hash },
         });
 
-        return res.status(200).json({ success: true });
+        res.status(200).json({ success: true });
+
+        // send email notification
+        const passwordNotificationMessage =
+          await emailService.sendPasswordUpdateNotification({
+            email: currentUser.email,
+            name: currentUser.name,
+          });
+
+        return;
       } else {
         return res.status(401).json({ success: false, error: 'Invalid token' });
       }

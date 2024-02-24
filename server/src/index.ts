@@ -7,6 +7,8 @@ import morgan from 'morgan';
 import path from 'path';
 import { Request, Response } from 'express';
 import { authRouter } from './routes/auth.routes';
+import { userRouter } from './routes/user.routes';
+import { checkJwtExists } from './middleware/auth.middleware';
 
 export const prismaDB = new PrismaClient({
   errorFormat: 'pretty',
@@ -30,6 +32,8 @@ app.get('/', async (req: Request, res: Response) => {
 
 // routes
 app.use('/api/auth', authRouter);
+app.use(checkJwtExists);
+app.use('/api/user', userRouter);
 
 // 404 handler
 app.use('*', (req: Request, res: Response, next: NextFunction) => {
