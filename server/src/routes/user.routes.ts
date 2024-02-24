@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import {
-  checkUserDetailsUpdteObjectValid,
+  checkUserDetailsUpdateObjectValid,
   checkUserPasswordUpdateObjectValid,
+  checkUserProfileUpdateObjectValid,
 } from '../middleware/user.middleware';
 import {
   updateUserDetailsController,
   updateUserPasswordController,
+  updateUserProfileController,
 } from '../controllers/user.controller';
 
 export const userRouter = Router();
@@ -20,6 +22,13 @@ userRouter.put(
 // update user details
 userRouter.put(
   '/update-details',
-  checkUserDetailsUpdteObjectValid,
+  checkUserDetailsUpdateObjectValid,
   updateUserDetailsController
+);
+
+// update user profile
+userRouter.put(
+  '/update-profile',
+  checkUserProfileUpdateObjectValid,
+  updateUserProfileController
 );

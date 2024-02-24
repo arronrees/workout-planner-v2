@@ -70,3 +70,14 @@ export const userDetailsUpdateModel = z.object({
 });
 
 export type UserDetailsUpdateType = z.infer<typeof userDetailsUpdateModel>;
+
+export const userProfileUpdateModel = z.object({
+  avatarUrl: z
+    .string({
+      required_error: 'Avatar URL is required',
+      invalid_type_error: 'Avatar URL must be a string',
+    })
+    .nullable(),
+});
+
+export type UserProfileUpdateType = z.infer<typeof userProfileUpdateModel>;
