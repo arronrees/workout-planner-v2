@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: #262d3f;
+}
+
+figure {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn {
+  @apply px-4 py-3 block rounded shadow text-center text-xs font-semibold active:translate-y-[1px] transition duration-200 focus:outline-none ring-offset-2 focus:ring-2 active:ring-2 disabled:cursor-wait disabled:bg-zinc-200 disabled:hover:bg-zinc-200 disabled:focus:bg-zinc-200 disabled:text-zinc-500 disabled:hover:text-zinc-500 disabled:focus:text-zinc-500;
+}
+
+.btn--green {
+  @apply bg-green-200 hover:bg-green-300 focus:bg-green-300 active:bg-green-400 ring-green-100;
+}
+
+.btn--blue {
+  @apply bg-blue-100 hover:bg-blue-200 focus:bg-blue-200 active:bg-blue-300 ring-blue-100/50;
+}
+
+.btn--amber {
+  @apply bg-amber-100 hover:bg-amber-200 focus:bg-amber-200 active:bg-amber-300 ring-amber-100/50;
+}
+
+.btn--red {
+  @apply bg-red-200 hover:bg-red-300 focus:bg-red-300 active:bg-red-400 ring-red-200/50;
+}
+
+.btn--secondary {
+  @apply font-extralight text-xl flex items-center justify-between;
+}
+
+/* nav */
+.nav__link {
+  @apply py-2 flex items-center gap-2 uppercase tracking-widest hover:text-zinc-400 focus:text-zinc-500 transition duration-150;
+}
+
+/* profile */
+.profile__nav__link {
+  @apply p-2 bg-zinc-100 rounded border border-zinc-200 text-sm flex items-center gap-2 hover:bg-zinc-200 focus:bg-zinc-200 focus:outline-none ring-offset-2 focus:ring-2 active:ring-2 ring-zinc-200/50 bg-zinc-200/50 hover:shadow transition duration-150;
+}
+
+.profile__nav__link--blue {
+  @apply bg-blue-50 border-blue-100 hover:bg-blue-100 focus:bg-blue-100 ring-blue-100/50;
+}
+
+.profile__nav__link--green {
+  @apply bg-green-50 border-green-100 hover:bg-green-100 focus:bg-green-100 ring-green-100/50;
+}
+
+.profile__nav__link--clear {
+  @apply bg-transparent hover:bg-zinc-100 focus:bg-zinc-100 ring-zinc-100/50;
+}
+
+/* form */
+.form__grid {
+  @apply grid gap-3;
+}
+
+/* page header */
+.page__header__title {
+  @apply font-semibold text-2xl mb-2;
+}
+
+.page__header__subtitle {
+  @apply font-light text-sm text-zinc-500;
+}
+
+.back__btn {
+  @apply flex items-center justify-start gap-2 text-xs mb-6 opacity-50 transition duration-150 hover:opacity-100 focus:opacity-100;
+}
