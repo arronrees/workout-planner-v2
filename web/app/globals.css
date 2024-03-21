@@ -2,83 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: #262d3f;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
 }
 
-figure {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.btn {
-  @apply px-4 py-3 block rounded shadow text-center text-xs font-semibold active:translate-y-[1px] transition duration-200 focus:outline-none ring-offset-2 focus:ring-2 active:ring-2 disabled:cursor-wait disabled:bg-zinc-200 disabled:hover:bg-zinc-200 disabled:focus:bg-zinc-200 disabled:text-zinc-500 disabled:hover:text-zinc-500 disabled:focus:text-zinc-500;
-}
-
-.btn--green {
-  @apply bg-green-200 hover:bg-green-300 focus:bg-green-300 active:bg-green-400 ring-green-100;
-}
-
-.btn--blue {
-  @apply bg-blue-100 hover:bg-blue-200 focus:bg-blue-200 active:bg-blue-300 ring-blue-100/50;
-}
-
-.btn--amber {
-  @apply bg-amber-100 hover:bg-amber-200 focus:bg-amber-200 active:bg-amber-300 ring-amber-100/50;
-}
-
-.btn--red {
-  @apply bg-red-200 hover:bg-red-300 focus:bg-red-300 active:bg-red-400 ring-red-200/50;
-}
-
-.btn--secondary {
-  @apply font-extralight text-xl flex items-center justify-between;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 /* nav */
 .nav__link {
   @apply py-2 flex items-center gap-2 uppercase tracking-widest hover:text-zinc-400 focus:text-zinc-500 transition duration-150;
-}
-
-/* profile */
-.profile__nav__link {
-  @apply p-2 bg-zinc-100 rounded border border-zinc-200 text-sm flex items-center gap-2 hover:bg-zinc-200 focus:bg-zinc-200 focus:outline-none ring-offset-2 focus:ring-2 active:ring-2 ring-zinc-200/50 bg-zinc-200/50 hover:shadow transition duration-150;
-}
-
-.profile__nav__link--blue {
-  @apply bg-blue-50 border-blue-100 hover:bg-blue-100 focus:bg-blue-100 ring-blue-100/50;
-}
-
-.profile__nav__link--green {
-  @apply bg-green-50 border-green-100 hover:bg-green-100 focus:bg-green-100 ring-green-100/50;
-}
-
-.profile__nav__link--clear {
-  @apply bg-transparent hover:bg-zinc-100 focus:bg-zinc-100 ring-zinc-100/50;
-}
-
-/* form */
-.form__grid {
-  @apply grid gap-3;
-}
-
-/* page header */
-.page__header__title {
-  @apply font-semibold text-2xl mb-2;
-}
-
-.page__header__subtitle {
-  @apply font-light text-sm text-zinc-500;
-}
-
-.back__btn {
-  @apply flex items-center justify-start gap-2 text-xs mb-6 opacity-50 transition duration-150 hover:opacity-100 focus:opacity-100;
 }
