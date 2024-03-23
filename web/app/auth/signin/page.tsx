@@ -36,7 +36,7 @@ export default async function SignIn() {
 
         <Link
           href='/auth/user/reset-password/request'
-          className='block font-semibold text-zinc-400 text-xs mt-6 hover:text-zinc-500 focus:text-zinc-500'
+          className='block font-semibold text-slate-400 text-xs mt-6 hover:text-slate-500 focus:text-slate-500'
         >
           Forgot your password?
         </Link>

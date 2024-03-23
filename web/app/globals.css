@@ -81,5 +81,5 @@
 }
 
 .page__lead {
-  @apply mb-6 text-zinc-500;
+  @apply mb-6 text-slate-500;
 }

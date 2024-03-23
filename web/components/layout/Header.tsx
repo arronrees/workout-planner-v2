@@ -17,10 +17,10 @@ export default async function Header() {
         <Navbar />
         <HomeIcon />
       </div>
-      <div>
-        {user?.user_metadata.full_name && (
-          <div className='text-sm text-gray-400'>
-            Hi, {user.user_metadata.full_name}
+      <div className='flex items-center gap-4'>
+        {user?.user_metadata && (
+          <div className='text-sm text-slate-600'>
+            Hi, {user.user_metadata?.first_name}
           </div>
         )}
 

@@ -27,7 +27,7 @@ export default async function Home() {
         <h1 className='font-extralight text-4xl text-center mb-4'>
           Let&apos;s get moving
         </h1>
-        <p className='font text-center mb-10 text-zinc-500'>
+        <p className='font text-center mb-10 text-slate-500'>
           Sign up to get started tracking your workouts and reaching your goals
         </p>
         <div className='flex items-center justify-center'>
