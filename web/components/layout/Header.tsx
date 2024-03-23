@@ -1,4 +1,4 @@
-import Navbar from './nav/Navbar';
+import Navbar from './nav/NavMenu';
 import { ProfileMenu } from './nav/ProfileMenu';
 import HomeIcon from '@/components/layout/nav/HomeLink';
 import { createClient } from '@/utils/supabase/server';
@@ -17,7 +17,15 @@ export default async function Header() {
         <Navbar />
         <HomeIcon />
       </div>
-      <ProfileMenu user={user} />
+      <div>
+        {user?.user_metadata.full_name && (
+          <div className='text-sm text-gray-400'>
+            Hi, {user.user_metadata.full_name}
+          </div>
+        )}
+
+        <ProfileMenu user={user} />
+      </div>
     </header>
   );
 }

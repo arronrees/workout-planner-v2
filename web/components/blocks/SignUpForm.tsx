@@ -33,6 +33,16 @@ export default function SignUpForm() {
     <div>
       <form className='flex flex-col gap-4' action={formAction}>
         <div className='flex flex-col gap-2'>
+          <Label htmlFor='firstName'>First Name:</Label>
+          <Input id='firstName' name='firstName' type='text' required />
+        </div>
+
+        <div className='flex flex-col gap-2'>
+          <Label htmlFor='lastName'>Last Name:</Label>
+          <Input id='lastName' name='lastName' type='text' required />
+        </div>
+
+        <div className='flex flex-col gap-2'>
           <Label htmlFor='email'>Email:</Label>
           <Input id='email' name='email' type='email' required />
         </div>

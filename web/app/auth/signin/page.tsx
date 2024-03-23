@@ -19,10 +19,8 @@ export default async function SignIn() {
   return (
     <div>
       <section>
-        <h1 className='font-extralight text-4xl mb-4'>Keep on moving</h1>
-        <p className='font  mb-6 text-zinc-500'>
-          Sign in to keep on reaching your goals
-        </p>
+        <h1 className='page__headline'>Keep on moving</h1>
+        <p className='page__lead'>Sign in to keep on reaching your goals</p>
         <p className='font-extralight text-xs'>
           Don&apos;t have an account?{' '}
           <Link href='/auth/signup' className='font-semibold'>

@@ -75,7 +75,11 @@
   }
 }
 
-/* nav */
-.nav__link {
-  @apply py-2 flex items-center gap-2 uppercase tracking-widest hover:text-zinc-400 focus:text-zinc-500 transition duration-150;
+/* global styles */
+.page__headline {
+  @apply font-extralight text-4xl mb-4;
+}
+
+.page__lead {
+  @apply mb-6 text-zinc-500;
 }

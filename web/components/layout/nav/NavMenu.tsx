@@ -7,11 +7,11 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { User, Settings, LogOut } from 'lucide-react';
+import { Dumbbell, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Bars2Icon } from '@heroicons/react/24/outline';
 
-export default async function Navbar() {
+export default async function NavMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -24,18 +24,22 @@ export default async function Navbar() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className='mr-2 h-4 w-4' />
+            <Activity className='mr-2 h-4 w-4' />
             <span>Create Workout</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Settings className='mr-2 h-4 w-4' />
-            <span>Preferences</span>
+            <Dumbbell className='mr-2 h-4 w-4' />
+            <span>New Exercise</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogOut className='mr-2 h-4 w-4' />
-          <span>Log out</span>
+          <Dumbbell className='mr-2 h-4 w-4' />
+          <span>My Exercises</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Activity className='mr-2 h-4 w-4' />
+          <span>My Workouts</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

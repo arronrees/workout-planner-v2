@@ -19,8 +19,8 @@ export default async function SignUp() {
   return (
     <div>
       <section>
-        <h1 className='font-extralight text-4xl mb-4'>Let&apos;s get moving</h1>
-        <p className='font mb-6 text-zinc-500'>
+        <h1 className='page__headline'>Let&apos;s get moving</h1>
+        <p className='page__lead'>
           Sign up to get started tracking your workouts and reaching your goals
         </p>
         <p className='font-extralight text-xs'>

@@ -56,6 +56,8 @@ export async function signup(
   const supabase = createClient();
 
   const data = {
+    lastName: formData.get('lastName') as string,
+    firstName: formData.get('firstName') as string,
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   };
@@ -70,7 +72,16 @@ export async function signup(
     return { errorMessage: validationError, success: false };
   }
 
-  const { error, data: signupData } = await supabase.auth.signUp(data);
+  const { error, data: signupData } = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
+    options: {
+      data: {
+        first_name: data.firstName,
+        last_name: data.lastName,
+      },
+    },
+  });
 
   if (error) {
     console.error('Signup Auth Error: ', error);
