@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
-import { signOut } from '@/lib/auth';
+import { signOut } from '@/lib/user/auth';
 
 export async function ProfileMenu({ user }: { user: any | null }) {
   if (!user) return null;

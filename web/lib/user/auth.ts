@@ -1,12 +1,12 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-
 import { createClient } from '@/utils/supabase/server';
 import {
   checkUserSigninObjectValid,
   checkUserSignupObjectValid,
 } from '@/lib/validation';
+import { createUserProfile } from './profile';
 
 export async function login(
   prevState: {
@@ -87,6 +87,13 @@ export async function signup(
     console.error('Signup Auth Error: ', error);
 
     return { errorMessage: error.message, success: false };
+  }
+
+  if (signupData && signupData.user) {
+    const proflie = await createUserProfile(
+      signupData.user.id,
+      signupData.user.user_metadata?.first_name
+    );
   }
 
   revalidatePath('/', 'layout');
