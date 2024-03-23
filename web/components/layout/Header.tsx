@@ -11,6 +11,12 @@ export default async function Header() {
     error,
   } = await supabase.auth.getUser();
 
+  const { data: profile } = await supabase
+    .from('user_profile')
+    .select()
+    .eq('user_id', user?.id)
+    .single();
+
   return (
     <header className='flex items-center justify-between gap-2'>
       <div className='flex items-center gap-2'>
@@ -18,13 +24,13 @@ export default async function Header() {
         <HomeIcon />
       </div>
       <div className='flex items-center gap-4'>
-        {user?.user_metadata && (
+        {profile && (
           <div className='text-sm text-slate-600'>
-            Hi, {user.user_metadata?.first_name}
+            Hi, {profile.display_name}
           </div>
         )}
 
-        <ProfileMenu user={user} />
+        <ProfileMenu user={user} profile={profile} />
       </div>
     </header>
   );

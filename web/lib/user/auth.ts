@@ -102,18 +102,3 @@ export async function signup(
   revalidatePath('/', 'layout');
   return { errorMessage: null, success: true };
 }
-
-export async function signOut() {
-  const supabase = createClient();
-
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    console.error('Signout Auth Error: ', error);
-
-    return { errorMessage: error.message, success: false };
-  }
-
-  revalidatePath('/', 'layout');
-  return { errorMessage: null, success: true };
-}

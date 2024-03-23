@@ -1,6 +1,6 @@
 'use client';
 
-import { LogOut, Settings, User } from 'lucide-react';
+import { LogOut, Settings, User as UserIcon } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +12,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
-import { signOut } from '@/lib/user/auth';
+import { type User } from '@supabase/supabase-js';
 
-export function ProfileMenu({ user }: { user: any | null }) {
+export function ProfileMenu({
+  user,
+  profile,
+}: {
+  user: User | null;
+  profile: any;
+}) {
   if (!user) return null;
 
   return (
@@ -29,7 +35,7 @@ export function ProfileMenu({ user }: { user: any | null }) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className='mr-2 h-4 w-4' />
+            <UserIcon className='mr-2 h-4 w-4' />
             <span>Profile</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
@@ -39,14 +45,7 @@ export function ProfileMenu({ user }: { user: any | null }) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-
-              await signOut();
-            }}
-            className='w-full'
-          >
+          <form className='w-full' action='/auth/signout' method='post'>
             <button type='submit' className='flex items-center w-full'>
               <LogOut className='mr-2 h-4 w-4' />
               Log out
