@@ -7,6 +7,7 @@ import {
   checkUserSignupObjectValid,
 } from '@/lib/validation';
 import { createUserProfile } from './profile';
+import { createUserPreferences } from './preferences';
 
 export async function login(
   prevState: {
@@ -90,10 +91,12 @@ export async function signup(
   }
 
   if (signupData && signupData.user) {
-    const proflie = await createUserProfile(
+    const profile = await createUserProfile(
       signupData.user.id,
       signupData.user.user_metadata?.first_name
     );
+
+    const preferences = await createUserPreferences(signupData.user.id);
   }
 
   revalidatePath('/', 'layout');
