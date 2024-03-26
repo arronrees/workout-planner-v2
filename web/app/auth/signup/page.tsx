@@ -1,6 +1,6 @@
 import DividerLine from '@/components/layout/DividerLine';
 import Link from 'next/link';
-import SignUpForm from '@/components/blocks/SignUpForm';
+import SignUpForm from '@/components/blocks/auth/SignUpForm';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
@@ -9,7 +9,6 @@ export default async function SignUp() {
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
   if (user) {

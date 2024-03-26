@@ -1,31 +1,31 @@
 'use client';
 
-import { signup } from '@/lib/user/auth';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { redirect } from 'next/navigation';
 import { useFormState, useFormStatus } from 'react-dom';
 import { useEffect } from 'react';
-import { redirect } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
+import { resetPassword } from '@/lib/user/auth';
 
 const initialState = {
   errorMessage: null,
   success: false,
 };
 
-export default function SignUpForm() {
-  const [state, formAction] = useFormState(signup, initialState);
+export default function ForgotPasswordForm() {
+  const [state, formAction] = useFormState(resetPassword, initialState);
 
   const { toast } = useToast();
 
   useEffect(() => {
     if (state.success) {
       toast({
-        title: 'Thanks for joining!',
-        description: 'Account created successfully',
+        title: 'Password updated',
+        description: 'Your password has been reset successfully.',
       });
-      redirect('/');
+      redirect('/auth/signin');
     }
   }, [state.success, toast]);
 
@@ -33,23 +33,17 @@ export default function SignUpForm() {
     <div>
       <form className='flex flex-col gap-4' action={formAction}>
         <div className='flex flex-col gap-2'>
-          <Label htmlFor='firstName'>First Name:</Label>
-          <Input id='firstName' name='firstName' type='text' required />
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Label htmlFor='lastName'>Last Name:</Label>
-          <Input id='lastName' name='lastName' type='text' required />
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Label htmlFor='email'>Email:</Label>
-          <Input id='email' name='email' type='email' required />
-        </div>
-
-        <div className='flex flex-col gap-2'>
           <Label htmlFor='password'>Password:</Label>
           <Input id='password' name='password' type='password' required />
+        </div>
+        <div className='flex flex-col gap-2'>
+          <Label htmlFor='passwordConfirmation'>Password confirmation:</Label>
+          <Input
+            id='passwordConfirmation'
+            name='passwordConfirmation'
+            type='password'
+            required
+          />
         </div>
 
         <div>
@@ -68,7 +62,7 @@ function SubmitBtn() {
 
   return (
     <Button type='submit' disabled={pending} aria-disabled={pending}>
-      Create Account
+      Reset Password
     </Button>
   );
 }

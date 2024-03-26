@@ -1,28 +1,32 @@
 'use client';
 
-import { login } from '@/lib/user/auth';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useFormState, useFormStatus } from 'react-dom';
-import { useEffect } from 'react';
+import { useToast } from '@/components/ui/use-toast';
 import { redirect } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
+import { useEffect } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
+import { forgotPassword } from '@/lib/user/auth';
 
 const initialState = {
   errorMessage: null,
   success: false,
 };
 
-export default function SignInForm() {
-  const [state, formAction] = useFormState(login, initialState);
+export default function ForgotPasswordForm() {
+  const [state, formAction] = useFormState(forgotPassword, initialState);
 
   const { toast } = useToast();
 
   useEffect(() => {
     if (state.success) {
-      toast({ title: 'Welcome back!', description: 'Sign in successful' });
-      redirect('/');
+      toast({
+        title: 'Request sent',
+        description:
+          'Please check your email for instructions on how to reset your password.',
+      });
+      redirect('/auth/signin');
     }
   }, [state.success, toast]);
 
@@ -32,11 +36,6 @@ export default function SignInForm() {
         <div className='flex flex-col gap-2'>
           <Label htmlFor='email'>Email:</Label>
           <Input id='email' name='email' type='email' required />
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Label htmlFor='password'>Password:</Label>
-          <Input id='password' name='password' type='password' required />
         </div>
 
         <div>
@@ -55,7 +54,7 @@ function SubmitBtn() {
 
   return (
     <Button type='submit' disabled={pending} aria-disabled={pending}>
-      Sign In
+      Reset Password
     </Button>
   );
 }

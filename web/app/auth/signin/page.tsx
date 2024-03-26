@@ -1,6 +1,6 @@
 import DividerLine from '@/components/layout/DividerLine';
 import Link from 'next/link';
-import SignInForm from '@/components/blocks/SignInForm';
+import SignInForm from '@/components/blocks/auth/SignInForm';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
@@ -9,7 +9,6 @@ export default async function SignIn() {
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
   if (user) {
@@ -35,8 +34,8 @@ export default async function SignIn() {
         <SignInForm />
 
         <Link
-          href='/auth/user/reset-password/request'
-          className='block font-semibold text-slate-400 text-xs mt-6 hover:text-slate-500 focus:text-slate-500'
+          href='/auth/forgot-password'
+          className='block font-medium text-slate-400 text-xs mt-6 hover:text-slate-500 focus:text-slate-500'
         >
           Forgot your password?
         </Link>
