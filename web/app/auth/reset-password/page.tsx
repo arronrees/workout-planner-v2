@@ -2,6 +2,13 @@
 
 import ResetPasswordForm from '@/components/blocks/auth/ResetPasswordForm';
 import DividerLine from '@/components/layout/DividerLine';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -32,19 +39,17 @@ export default function ResetPassword() {
   }, [supabase, router, toast]);
 
   return (
-    <div className='page__card'>
-      <section>
-        <h1 className='page__headline'>Reset your password</h1>
-        <p className='page__lead'>
+    <Card className='max-w-lg mx-auto'>
+      <CardHeader>
+        <CardTitle>Reset your password</CardTitle>
+        <CardDescription>
           Fill out the form below to reset your password.
-        </p>
-      </section>
+        </CardDescription>
+      </CardHeader>
 
-      <DividerLine />
-
-      <section>
+      <CardContent>
         <ResetPasswordForm />
-      </section>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -48,7 +48,7 @@ export default async function SignIn() {
                 <Input placeholder='Your name' />
               </form>
             </CardContent>
-            <CardFooter className='border-t px-6 py-4'>
+            <CardFooter className='border-t p-6'>
               <Button>Save</Button>
             </CardFooter>
           </Card>

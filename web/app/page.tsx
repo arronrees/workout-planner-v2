@@ -2,16 +2,30 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { createClient } from '@/utils/supabase/server';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
-  // console.log('server: ', data?.user);
+  // if(user) {
+  // redirect('/dashboard')
+  // }
 
   return (
-    <div className='page__card'>
+    <Card className='max-w-lg mx-auto text-center'>
       <div className='h-96 p-8 pt-6'>
         <figure className='w-full h-full overflow-hidden relative'>
           <Image
@@ -23,14 +37,14 @@ export default async function Home() {
           />
         </figure>
       </div>
-      <section>
-        <h1 className='font-extralight text-4xl text-center mb-4'>
-          Let&apos;s get moving
-        </h1>
-        <p className='font text-center mb-10 text-slate-500'>
+      <CardHeader>
+        <CardTitle>Let&apos;s get moving</CardTitle>
+        <CardDescription className='max-w-sm mx-auto'>
           Sign up to get started tracking your workouts and reaching your goals
-        </p>
-        <div className='flex items-center justify-center'>
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div>
           <Link
             href='/auth/signup'
             className={buttonVariants({ variant: 'default' })}
@@ -38,13 +52,14 @@ export default async function Home() {
             Register Now
           </Link>
         </div>
-        <p className='text-center font-extralight text-xs mt-6'>
+
+        <p className='font-light mt-6'>
           Already have an account?{' '}
           <Link href='/auth/signin' className='font-semibold'>
             Sign In
           </Link>
         </p>
-      </section>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

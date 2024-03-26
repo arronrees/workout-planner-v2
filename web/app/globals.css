@@ -75,15 +75,11 @@
   }
 }
 
-/* global styles */
+/* 
 .page__headline {
   @apply font-extralight text-4xl mb-4;
 }
 
 .page__lead {
   @apply text-slate-500;
-}
-
-.page__card {
-  @apply p-6 rounded-md bg-white border-2 border-slate-200;
-}
+} */

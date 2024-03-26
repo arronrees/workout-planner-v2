@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <Header />
-        <div className='p-6 text-sm bg-slate-100 min-h-screen'>
+        <div className='p-6 text-sm bg-slate-50 min-h-screen'>
           <main>{children}</main>
           <Toaster />
         </div>

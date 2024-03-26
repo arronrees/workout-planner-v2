@@ -1,6 +1,14 @@
 import ForgotPasswordForm from '@/components/blocks/auth/ForgotPasswordForm';
-import DividerLine from '@/components/layout/DividerLine';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { createClient } from '@/utils/supabase/server';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export default async function ForgotPassword() {
@@ -15,19 +23,26 @@ export default async function ForgotPassword() {
   }
 
   return (
-    <div className='page__card'>
-      <section>
-        <h1 className='page__headline'>Forgot your password</h1>
-        <p className='page__lead'>
+    <Card className='max-w-lg mx-auto'>
+      <CardHeader>
+        <CardTitle>Forgot your password</CardTitle>
+        <CardDescription>
           Enter your email below to request a reset token
-        </p>
-      </section>
+        </CardDescription>
+      </CardHeader>
 
-      <DividerLine />
-
-      <section>
+      <CardContent>
         <ForgotPasswordForm />
-      </section>
-    </div>
+      </CardContent>
+
+      <CardFooter className='border-t p-6'>
+        <p className='font-light text-xs'>
+          Remembered your password?{' '}
+          <Link href='/auth/signin' className='font-semibold'>
+            Sign In
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
   );
 }
