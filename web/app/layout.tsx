@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { Sora } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import { Toaster } from '@/components/ui/toaster';
 
-const sora = Sora({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Workout Planner',
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={sora.className}>
+      <body className={inter.className}>
         <Header />
         <div className='p-6 text-sm bg-slate-100 min-h-screen'>
           <main>{children}</main>

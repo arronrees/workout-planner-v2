@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { type User } from '@supabase/supabase-js';
+import Link from 'next/link';
 
 export function ProfileMenu({
   user,
@@ -34,9 +35,11 @@ export function ProfileMenu({
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <UserIcon className='mr-2 h-4 w-4' />
-            <span>Profile</span>
+          <DropdownMenuItem asChild>
+            <Link href='/profile'>
+              <UserIcon className='mr-2 h-4 w-4' />
+              <span>Profile</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className='mr-2 h-4 w-4' />
