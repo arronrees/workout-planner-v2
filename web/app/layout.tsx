@@ -19,9 +19,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={sora.className}>
-        <div className='p-6 text-sm'>
-          <Header />
-          <main className='pt-16'>{children}</main>
+        <Header />
+        <div className='p-6 text-sm bg-slate-100 min-h-screen'>
+          <main>{children}</main>
           <Toaster />
         </div>
       </body>

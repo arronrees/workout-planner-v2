@@ -16,24 +16,25 @@ export default async function SignUp() {
   }
 
   return (
-    <div>
+    <div className='page__card'>
       <section>
         <h1 className='page__headline'>Let&apos;s get moving</h1>
         <p className='page__lead'>
           Sign up to get started tracking your workouts and reaching your goals
         </p>
-        <p className='font-extralight text-xs'>
+      </section>
+
+      <DividerLine />
+
+      <section>
+        <SignUpForm />
+
+        <p className='font-extralight text-xs mt-6'>
           Already have an account?{' '}
           <Link href='/auth/signin' className='font-semibold'>
             Sign In
           </Link>
         </p>
-      </section>
-
-      <DividerLine />
-
-      <section className='mt-6'>
-        <SignUpForm />
       </section>
     </div>
   );

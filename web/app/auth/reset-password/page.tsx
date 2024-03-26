@@ -1,6 +1,7 @@
 'use client';
 
 import ResetPasswordForm from '@/components/blocks/auth/ResetPasswordForm';
+import DividerLine from '@/components/layout/DividerLine';
 import { useToast } from '@/components/ui/use-toast';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -31,7 +32,7 @@ export default function ResetPassword() {
   }, [supabase, router, toast]);
 
   return (
-    <div>
+    <div className='page__card'>
       <section>
         <h1 className='page__headline'>Reset your password</h1>
         <p className='page__lead'>
@@ -39,11 +40,9 @@ export default function ResetPassword() {
         </p>
       </section>
 
-      <div className='py-4'>
-        <span className='block w-full h-[1px] bg-slate-200'></span>
-      </div>
+      <DividerLine />
 
-      <section className='mt-6'>
+      <section>
         <ResetPasswordForm />
       </section>
     </div>

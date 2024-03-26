@@ -11,8 +11,8 @@ export default async function Home() {
   // console.log('server: ', data?.user);
 
   return (
-    <div>
-      <div className='h-96 p-8 pt-32'>
+    <div className='page__card'>
+      <div className='h-96 p-8 pt-6'>
         <figure className='w-full h-full overflow-hidden relative'>
           <Image
             src='/register-illustration.svg'

@@ -16,29 +16,33 @@ export default async function SignIn() {
   }
 
   return (
-    <div>
+    <div className='page__card'>
       <section>
         <h1 className='page__headline'>Keep on moving</h1>
         <p className='page__lead'>Sign in to keep on reaching your goals</p>
-        <p className='font-extralight text-xs'>
-          Don&apos;t have an account?{' '}
-          <Link href='/auth/signup' className='font-semibold'>
-            Sign Up
-          </Link>
-        </p>
       </section>
 
       <DividerLine />
 
-      <section className='mt-6'>
+      <section>
         <SignInForm />
 
-        <Link
-          href='/auth/forgot-password'
-          className='block font-medium text-slate-400 text-xs mt-6 hover:text-slate-500 focus:text-slate-500'
-        >
-          Forgot your password?
-        </Link>
+        <div className='mt-6 flex flex-wrap gap-4 items-center justify-between'>
+          <p className='font-extralight text-xs'>
+            Don&apos;t have an account?{' '}
+            <Link href='/auth/signup' className='font-semibold'>
+              Sign Up
+            </Link>
+          </p>
+          <p>
+            <Link
+              href='/auth/forgot-password'
+              className='block font-medium text-slate-400 text-xs hover:text-slate-500 focus:text-slate-500'
+            >
+              Forgot your password?
+            </Link>
+          </p>
+        </div>
       </section>
     </div>
   );

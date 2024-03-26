@@ -15,7 +15,7 @@ export default async function ForgotPassword() {
   }
 
   return (
-    <div>
+    <div className='page__card'>
       <section>
         <h1 className='page__headline'>Forgot your password</h1>
         <p className='page__lead'>
@@ -25,7 +25,7 @@ export default async function ForgotPassword() {
 
       <DividerLine />
 
-      <section className='mt-6'>
+      <section>
         <ForgotPasswordForm />
       </section>
     </div>
