@@ -1,17 +1,8 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import UserForm from '@/components/blocks/settings/UserForm';
+import ProfileForm from '@/components/blocks/settings/ProfileForm';
 
 export default async function SignIn() {
   const supabase = createClient();
@@ -23,6 +14,12 @@ export default async function SignIn() {
   if (!user) {
     redirect('/');
   }
+
+  const { data: profile, error } = await supabase
+    .from('user_profiles')
+    .select()
+    .eq('user_id', user?.id)
+    .single();
 
   return (
     <div className='flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-2 md:p-6 md:gap-8'>
@@ -38,20 +35,8 @@ export default async function SignIn() {
           <Link href='#'>Password & Security</Link>
         </nav>
         <div className='grid gap-6'>
-          <Card>
-            <CardHeader>
-              <CardTitle>Personal details</CardTitle>
-              <CardDescription>Update your details</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form>
-                <Input placeholder='Your name' />
-              </form>
-            </CardContent>
-            <CardFooter className='border-t p-6'>
-              <Button>Save</Button>
-            </CardFooter>
-          </Card>
+          <UserForm user={user} />
+          <ProfileForm profile={profile} />
         </div>
       </div>
     </div>
