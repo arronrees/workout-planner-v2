@@ -8,7 +8,6 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from '@/components/ui/card';
 import { redirect } from 'next/navigation';
 
@@ -20,9 +19,9 @@ export default async function Home() {
     error,
   } = await supabase.auth.getUser();
 
-  // if(user) {
-  // redirect('/dashboard')
-  // }
+  if (user) {
+    redirect('/dashboard');
+  }
 
   return (
     <Card className='max-w-lg mx-auto text-center'>

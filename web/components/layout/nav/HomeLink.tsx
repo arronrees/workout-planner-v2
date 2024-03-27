@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function HomeLink() {
   return (
     <Button asChild variant='outline'>
-      <Link href='/'>
+      <Link href='/dashboard'>
         <HomeIcon className='w-5 h-5 stroke-2' />
       </Link>
     </Button>
