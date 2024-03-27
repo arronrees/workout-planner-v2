@@ -199,3 +199,31 @@ export async function updateUser(
   revalidatePath('/', 'layout');
   return { errorMessage: null, success: true };
 }
+
+export async function updateUserPassword(
+  prevState: {
+    errorMessage: string | null;
+    success: boolean;
+  },
+  formData: FormData
+) {
+  const supabase = createClient();
+
+  const password = formData.get('password') as string;
+  const passwordConfirmation = formData.get('passwordConfirmation') as string;
+
+  if (password !== passwordConfirmation) {
+    return { errorMessage: 'Passwords do not match', success: false };
+  }
+
+  const { data, error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    console.error('Reset Password Auth Error: ', error);
+
+    return { errorMessage: error.message, success: false };
+  }
+
+  revalidatePath('/', 'layout');
+  return { errorMessage: null, success: true };
+}
