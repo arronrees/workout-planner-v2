@@ -1,9 +1,8 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
-import UserForm from '@/components/blocks/settings/UserForm';
-import ProfileForm from '@/components/blocks/settings/ProfileForm';
+import PreferencesForm from '@/components/blocks/settings/PreferencesForm';
 
-export default async function Profile() {
+export default async function Preferences() {
   const supabase = createClient();
 
   const {
@@ -14,16 +13,15 @@ export default async function Profile() {
     redirect('/');
   }
 
-  const { data: profile, error } = await supabase
-    .from('user_profiles')
+  const { data: preferences, error } = await supabase
+    .from('user_preferences')
     .select()
     .eq('user_id', user?.id)
     .single();
 
   return (
     <div className='grid gap-6'>
-      <UserForm user={user} />
-      <ProfileForm profile={profile} />
+      <PreferencesForm preferences={preferences} />
     </div>
   );
 }

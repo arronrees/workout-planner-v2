@@ -1,6 +1,7 @@
 import {
   signinUserModel,
   signupUserModel,
+  updatePreferencesModel,
   updateProfileModel,
   updateUserModel,
 } from '@/models/user';
@@ -63,6 +64,25 @@ export async function checkProfileUpdateObjectValid(profile: any): Promise<{
 }> {
   try {
     updateProfileModel.parse(profile);
+
+    return { success: true, error: null };
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return { success: false, error: err.errors[0].message };
+    } else {
+      return { success: false, error: 'An unknown error occurred' };
+    }
+  }
+}
+
+export async function checkPreferencesUpdateObjectValid(
+  preferences: any
+): Promise<{
+  success: boolean;
+  error: string | null;
+}> {
+  try {
+    updatePreferencesModel.parse(preferences);
 
     return { success: true, error: null };
   } catch (err) {

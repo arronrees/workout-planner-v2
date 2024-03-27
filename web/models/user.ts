@@ -85,3 +85,14 @@ export const updateProfileModel = z
   .strict();
 
 export type UpdateProfileType = z.infer<typeof updateProfileModel>;
+
+export const updatePreferencesModel = z
+  .object({
+    weightUnit: z.enum(['kg', 'lbs'], {
+      required_error: 'Weight Unit is required',
+      invalid_type_error: 'Weight Unit must be kg or lbs',
+    }),
+  })
+  .strict();
+
+export type UpdatePreferencesType = z.infer<typeof updatePreferencesModel>;
