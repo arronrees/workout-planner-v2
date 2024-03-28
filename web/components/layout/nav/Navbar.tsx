@@ -15,12 +15,7 @@ export default function Navbar() {
           <Package2 className='h-6 w-6' />
         </Link>
 
-        <Link
-          href='/dashboard'
-          className='text-foreground transition-colors hover:text-foreground'
-        >
-          Dashboard
-        </Link>
+        <NavLink href='/dashboard' text='Dashboard' />
         <NavLink href='/workouts' text='Workouts' />
         <NavLink href='/exercises' text='Exercises' />
       </ul>
