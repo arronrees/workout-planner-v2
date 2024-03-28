@@ -1,7 +1,6 @@
-import Navbar from './nav/NavMenu';
 import { ProfileMenu } from './nav/ProfileMenu';
-import HomeIcon from '@/components/layout/nav/HomeLink';
 import { createClient } from '@/utils/supabase/server';
+import Navbar from './nav/Navbar';
 
 export default async function Header() {
   const supabase = createClient();
@@ -28,7 +27,6 @@ export default async function Header() {
       {user && (
         <div className='flex items-center gap-2'>
           <Navbar />
-          <HomeIcon />
         </div>
       )}
       <div className='flex items-center gap-4'>
