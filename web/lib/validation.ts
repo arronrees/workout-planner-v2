@@ -5,6 +5,7 @@ import {
   updateProfileModel,
   updateUserModel,
 } from '@/models/user';
+import { createWorkoutModel } from '@/models/workouts';
 import { z } from 'zod';
 
 export async function checkUserSignupObjectValid(user: any): Promise<{
@@ -83,6 +84,23 @@ export async function checkPreferencesUpdateObjectValid(
 }> {
   try {
     updatePreferencesModel.parse(preferences);
+
+    return { success: true, error: null };
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return { success: false, error: err.errors[0].message };
+    } else {
+      return { success: false, error: 'An unknown error occurred' };
+    }
+  }
+}
+
+export async function checkCreateWorkoutObjectValid(workout: any): Promise<{
+  success: boolean;
+  error: string | null;
+}> {
+  try {
+    createWorkoutModel.parse(workout);
 
     return { success: true, error: null };
   } catch (err) {
