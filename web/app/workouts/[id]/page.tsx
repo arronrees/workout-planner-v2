@@ -35,7 +35,6 @@ export default async function Workout({ params }: { params: { id: string } }) {
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -53,19 +52,16 @@ export default async function Workout({ params }: { params: { id: string } }) {
     redirect('/workouts');
   }
 
-  // console.log(workout);
-
   return (
-    <div className='flex flex-1 flex-col gap-4 p-2 md:gap-8 md:p-6'>
-      {/* <pre>{JSON.stringify(workout, null, 2)}</pre> */}
+    <div className='flex flex-1 flex-col gap-4 md:gap-8'>
       <div className='grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3'>
         <Card className='xl:col-span-2'>
-          <CardHeader className='flex flex-row items-center'>
+          <CardHeader className='flex flex-col gap-1 xs:flex-row xs:items-end xs:justify-between'>
             <div className='grid gap-2'>
               <CardTitle>{workout.name}</CardTitle>
               <CardDescription>View the workout details</CardDescription>
             </div>
-            <Button asChild size='sm' className='ml-auto gap-1'>
+            <Button asChild size='sm' className='gap-1 max-w-max'>
               <Link href='/workouts/create'>
                 Start Workout
                 <ArrowUpRight className='h-4 w-4' />
@@ -131,13 +127,13 @@ export default async function Workout({ params }: { params: { id: string } }) {
                                 </h3>
                                 <div className='flex gap-1'>
                                   <div className='flex-1'>
-                                    <span className='text-muted-foreground text-xs'>
+                                    <span className='text-muted-foreground font-medium text-xs'>
                                       Reps
                                     </span>
                                     <Input disabled value={set.reps || 0} />
                                   </div>
                                   <div className='flex-1'>
-                                    <span className='text-muted-foreground text-xs'>
+                                    <span className='text-muted-foreground font-medium text-xs'>
                                       Weight
                                     </span>
                                     <Input disabled value={set.weight || 0} />

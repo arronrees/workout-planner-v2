@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Package2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/utils/shadcn/utils';
 
 export default function Navbar() {
   return (
@@ -15,22 +16,41 @@ export default function Navbar() {
           <Package2 className='h-6 w-6' />
         </Link>
 
-        <NavLink href='/dashboard' text='Dashboard' />
-        <NavLink href='/workouts' text='Workouts' />
-        <NavLink href='/exercises' text='Exercises' />
+        <NavLink
+          href='/dashboard'
+          text='Dashboard'
+          className='hidden sm:block'
+        />
+        <NavLink href='/workouts' text='Workouts' className='hidden sm:block' />
+        <NavLink
+          href='/exercises'
+          text='Exercises'
+          className='hidden sm:block'
+        />
       </ul>
     </nav>
   );
 }
 
-function NavLink({ href, text }: { href: string; text: string }) {
+function NavLink({
+  href,
+  text,
+  className = '',
+}: {
+  href: string;
+  text: string;
+  className?: string;
+}) {
   const pathname = usePathname();
 
   return (
     <Link
-      className={`${
-        pathname === href ? 'text-foreground' : 'text-muted-foreground'
-      } transition-colors hover:text-foreground`}
+      className={cn(
+        `${
+          pathname === href ? 'text-foreground' : 'text-muted-foreground'
+        } transition-colors hover:text-foreground`,
+        className
+      )}
       href={href}
     >
       {text}
