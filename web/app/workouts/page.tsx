@@ -37,6 +37,14 @@ export default async function Workouts() {
     .eq('user_id', user.id)
     .limit(8);
 
+  const { data: workoutHistory } = await supabase
+    .from('workout_instance')
+    .select(
+      '*, workout_exercise_instance(*, workout_set_instance(*), exercise(*))'
+    )
+    .eq('user_id', user.id)
+    .limit(20);
+
   return (
     <div className='flex flex-1 flex-col gap-4 md:gap-8'>
       <div className='grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3'>
@@ -75,15 +83,17 @@ export default async function Workouts() {
                       <TableCell>{workout.muscle_focus}</TableCell>
                       <TableCell>{workout.workout_exercises.length}</TableCell>
                       <TableCell>
-                        <Button asChild variant='outline'>
-                          <Link
-                            href={`/workouts/${workout.id}`}
-                            className='flex gap-1'
-                          >
-                            View
-                            <ArrowRight className='h-3 w-3' />
-                          </Link>
-                        </Button>
+                        <div className='flex items-center justify-end'>
+                          <Button asChild variant='outline'>
+                            <Link
+                              href={`/workouts/${workout.id}`}
+                              className='flex gap-1'
+                            >
+                              View
+                              <ArrowRight className='h-3 w-3' />
+                            </Link>
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -102,31 +112,53 @@ export default async function Workouts() {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Weight Lifted</TableHead>
-                  <TableHead className='text-right'>Date</TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <div className='font-medium'>Upper body</div>
-                  </TableCell>
-                  <TableCell>240kg</TableCell>
-                  <TableCell className='text-right'>2023-06-23</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <div className='font-medium'>Lower body</div>
-                  </TableCell>
-                  <TableCell>240kg</TableCell>
-                  <TableCell className='text-right'>2023-06-23</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <div className='font-medium'>Full body</div>
-                  </TableCell>
-                  <TableCell>240kg</TableCell>
-                  <TableCell className='text-right'>2023-06-23</TableCell>
-                </TableRow>
+                {workoutHistory &&
+                  workoutHistory.map((workout) => (
+                    <TableRow key={workout.id}>
+                      <TableCell>
+                        <div>
+                          <span className='font-medium'>
+                            {new Date(workout.created_at).toDateString()} -{' '}
+                          </span>
+                          {workout.name}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {workout.workout_exercise_instance.reduce(
+                          (acc, curr) => {
+                            let val = 0;
+
+                            curr.workout_set_instance.forEach((set) => {
+                              val += set.weight || 0 * (set.reps || 1);
+                            });
+
+                            return acc + val;
+                          },
+                          0
+                        )}
+                        kg
+                      </TableCell>
+                      <TableCell className='text-right'>
+                        <div className='flex items-center justify-end'>
+                          <Button
+                            variant='outline'
+                            className='block ml-auto'
+                            asChild
+                          >
+                            <Link
+                              href={`/workouts/${workout.workout_id}/history/${workout.id}`}
+                            >
+                              View
+                            </Link>
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
