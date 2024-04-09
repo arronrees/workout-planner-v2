@@ -10,61 +10,63 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ChevronDown, ChevronUp, X, XIcon } from 'lucide-react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Database } from '@/database.types';
+import { ChevronDown, ChevronUp, XIcon } from 'lucide-react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import randomstring from 'randomstring';
-import { Exercise, NewWorkout, WorkoutExercise } from './CreateWorkoutForm';
+import { useToast } from '@/components/ui/use-toast';
+import { useFormState, useFormStatus } from 'react-dom';
+import { recordNewWorkout } from '@/lib/workouts/record';
+import { redirect } from 'next/navigation';
 
 interface Props {
-  newWorkout: NewWorkout;
-  setNewWorkout: Dispatch<SetStateAction<NewWorkout>>;
-  allExercises: Exercise[] | null;
-  setExercises: Dispatch<SetStateAction<Exercise[] | null>>;
+  workout: Workout;
 }
 
-export default function Stage2({
-  newWorkout,
-  setNewWorkout,
-  allExercises,
-  setExercises,
-}: Props) {
-  function removeSelectedExercise(id: string, sortOrder: number) {
+type Workout = Database['public']['Tables']['workouts']['Row'] & {
+  workout_exercises: Array<
+    Database['public']['Tables']['workout_exercises']['Row'] & {
+      exercise: Database['public']['Tables']['exercise']['Row'];
+      workout_sets: Array<Database['public']['Tables']['workout_sets']['Row']>;
+    }
+  >;
+};
+
+const initialState = {
+  errorMessage: null,
+  success: false,
+};
+
+export default function RecordWorkoutForm({ workout }: Props) {
+  const [newWorkout, setNewWorkout] = useState<Workout>({
+    ...workout,
+  });
+
+  const [state, formAction] = useFormState(recordNewWorkout, initialState);
+  const { pending } = useFormStatus();
+
+  function removeSelectedExercise(id: string, sort_order: number) {
     setNewWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises
+      workout_exercises: prev.workout_exercises
         .filter((exerciseInstance) => exerciseInstance.exercise.id !== id)
         .map((exerciseInstance) =>
-          exerciseInstance.sortOrder > sortOrder
-            ? { ...exerciseInstance, sortOrder: exerciseInstance.sortOrder - 1 }
+          exerciseInstance.sort_order > sort_order
+            ? {
+                ...exerciseInstance,
+                sort_order: exerciseInstance.sort_order - 1,
+              }
             : exerciseInstance
         ),
     }));
   }
 
-  function reSortAvailableExercises(id: string) {
-    if (allExercises) {
-      setExercises(
-        allExercises.filter((exercise) => {
-          const isSelected = newWorkout.exercises.some(
-            (selected) => selected.exercise.id === exercise.id
-          );
-
-          if (isSelected && exercise.id === id) {
-            return true;
-          }
-
-          return !isSelected;
-        })
-      );
-    }
-  }
-
   function reSortExercises(id: string, sortFrom: number, sortTo: number) {
     setNewWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises.map((exerciseInstance) => {
+      workout_exercises: prev.workout_exercises.map((exerciseInstance) => {
         // if already on lowest or highest position, return the same
-        if (sortTo < 0 || sortTo >= prev.exercises.length) {
+        if (sortTo < 0 || sortTo >= prev.workout_exercises.length) {
           return exerciseInstance;
         }
 
@@ -72,15 +74,15 @@ export default function Stage2({
         if (exerciseInstance.id === id) {
           return {
             ...exerciseInstance,
-            sortOrder: sortTo,
+            sort_order: sortTo,
           };
         }
 
         // change the sort order of the exercise instance that was swapped with the clicked exercise instance
-        if (exerciseInstance.sortOrder === sortTo) {
+        if (exerciseInstance.sort_order === sortTo) {
           return {
             ...exerciseInstance,
-            sortOrder: sortFrom,
+            sort_order: sortFrom,
           };
         }
 
@@ -89,50 +91,63 @@ export default function Stage2({
     }));
   }
 
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state.success) {
+      toast({
+        title: 'Workout recorded',
+        description: 'View your recorded workout in your dashboard',
+      });
+      redirect('/');
+    }
+  }, [state.success, toast]);
+
   return (
-    <div className='flex flex-col gap-4'>
-      {newWorkout.exercises
-        .sort((a, b) => a.sortOrder - b.sortOrder)
-        .map((exerciseInstance) => (
-          <Card key={exerciseInstance.id}>
+    <form className='flex flex-col gap-4' action={formAction}>
+      <input type='hidden' name='workout' value={JSON.stringify(newWorkout)} />
+      {newWorkout.workout_exercises
+        .sort((a, b) => a.sort_order - b.sort_order)
+        .map((exercise) => (
+          <Card key={exercise.id}>
             <CardHeader className='p-4'>
               <div className='flex gap-2 justify-between items-end'>
                 <div>
                   <CardTitle className='text-sm'>
-                    {exerciseInstance.exercise.name}
+                    {exercise.exercise.name}
                   </CardTitle>
                   <CardDescription className='text-xs'>
                     Add sets and reps
                   </CardDescription>
                 </div>
                 <div className='flex gap-1'>
-                  {exerciseInstance.sortOrder > 0 && (
+                  {exercise.sort_order > 0 && (
                     <Button
                       variant='outline'
                       className='max-w-max h-max p-2'
                       type='button'
                       onClick={() => {
                         reSortExercises(
-                          exerciseInstance.id,
-                          exerciseInstance.sortOrder,
-                          exerciseInstance.sortOrder - 1
+                          exercise.id,
+                          exercise.sort_order,
+                          exercise.sort_order - 1
                         );
                       }}
                     >
                       <ChevronUp className='w-3 h-3' />
                     </Button>
                   )}
-                  {exerciseInstance.sortOrder !==
-                    newWorkout.exercises.length - 1 && (
+                  {exercise.sort_order !==
+                    newWorkout.workout_exercises.length - 1 && (
                     <Button
                       variant='outline'
                       className='max-w-max h-max p-2'
                       type='button'
                       onClick={() => {
                         reSortExercises(
-                          exerciseInstance.id,
-                          exerciseInstance.sortOrder,
-                          exerciseInstance.sortOrder + 1
+                          exercise.id,
+                          exercise.sort_order,
+                          exercise.sort_order + 1
                         );
                       }}
                     >
@@ -144,8 +159,9 @@ export default function Stage2({
             </CardHeader>
             <CardContent className='p-4 pt-0'>
               <Sets
+                sets={exercise.workout_sets}
                 setNewWorkout={setNewWorkout}
-                exerciseInstance={exerciseInstance}
+                exerciseInstance={exercise}
               />
             </CardContent>
             <CardFooter className='p-4 pt-0'>
@@ -156,10 +172,9 @@ export default function Stage2({
                   e.preventDefault();
 
                   removeSelectedExercise(
-                    exerciseInstance.exercise.id,
-                    exerciseInstance.sortOrder
+                    exercise.exercise.id,
+                    exercise.sort_order
                   );
-                  reSortAvailableExercises(exerciseInstance.exercise.id);
                 }}
                 className='flex gap-2 items-center ml-auto p-2 h-auto text-xs'
               >
@@ -169,31 +184,45 @@ export default function Stage2({
             </CardFooter>
           </Card>
         ))}
-    </div>
+      <div>
+        <Button asChild variant='default'>
+          <button type='submit' disabled={pending}>
+            Finish Workout
+          </button>
+        </Button>
+      </div>
+      {state.errorMessage && (
+        <p className='text-sm text-red-500'>{state.errorMessage}</p>
+      )}
+    </form>
   );
 }
 
 interface SetsProps {
-  setNewWorkout: Dispatch<SetStateAction<NewWorkout>>;
-  exerciseInstance: WorkoutExercise;
+  sets: Database['public']['Tables']['workout_sets']['Row'][];
+  setNewWorkout: Dispatch<SetStateAction<Workout>>;
+  exerciseInstance: Database['public']['Tables']['workout_exercises']['Row'];
 }
 
-function Sets({ setNewWorkout, exerciseInstance }: SetsProps) {
+function Sets({ sets, setNewWorkout, exerciseInstance }: SetsProps) {
   function addSet(e: React.FormEvent) {
     e.preventDefault();
 
     setNewWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises.map((exercise) => {
+      workout_exercises: prev.workout_exercises.map((exercise) => {
         if (exercise.id === exerciseInstance.id) {
           return {
             ...exercise,
-            sets: [
-              ...exercise.sets,
+            workout_sets: [
+              ...exercise.workout_sets,
               {
                 id: randomstring.generate(8),
-                reps: null,
-                weight: null,
+                created_at: new Date().toDateString(),
+                reps: 0,
+                weight: 0,
+                user_id: exercise.user_id,
+                workout_exercise_id: exercise.id,
               },
             ],
           };
@@ -207,11 +236,11 @@ function Sets({ setNewWorkout, exerciseInstance }: SetsProps) {
   function updateSetReps(reps: number, id: string) {
     setNewWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises.map((exercise) => {
+      workout_exercises: prev.workout_exercises.map((exercise) => {
         if (exercise.id === exerciseInstance.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((set) => {
+            workout_sets: exercise.workout_sets.map((set) => {
               if (set.id === id) {
                 return {
                   ...set,
@@ -232,11 +261,11 @@ function Sets({ setNewWorkout, exerciseInstance }: SetsProps) {
   function updateSetWeight(weight: number, id: string) {
     setNewWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises.map((exercise) => {
+      workout_exercises: prev.workout_exercises.map((exercise) => {
         if (exercise.id === exerciseInstance.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((set) => {
+            workout_sets: exercise.workout_sets.map((set) => {
               if (set.id === id) {
                 return {
                   ...set,
@@ -257,11 +286,11 @@ function Sets({ setNewWorkout, exerciseInstance }: SetsProps) {
   function removeSet(id: string) {
     setNewWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises.map((exercise) => {
+      workout_exercises: prev.workout_exercises.map((exercise) => {
         if (exercise.id === exerciseInstance.id) {
           return {
             ...exercise,
-            sets: exercise.sets.filter((set) => set.id !== id),
+            workout_sets: exercise.workout_sets.filter((set) => set.id !== id),
           };
         }
 
@@ -274,14 +303,14 @@ function Sets({ setNewWorkout, exerciseInstance }: SetsProps) {
     <Card className='bg-slate-50/60'>
       <CardContent className='p-4'>
         <div className='flex flex-col gap-2'>
-          {exerciseInstance.sets && exerciseInstance.sets.length > 0 ? (
-            exerciseInstance.sets.map((set, index) => (
+          {sets && sets.length > 0 ? (
+            sets.map((set, index) => (
               <div key={set.id}>
                 <p className='font-semibold mb-1'>Set {index + 1}</p>
                 <div className='flex gap-1'>
                   <Input
                     type='number'
-                    placeholder='Reps'
+                    placeholder={`Target: ${set.reps}`}
                     min={0}
                     onChange={(e) => {
                       e.preventDefault();
@@ -294,7 +323,7 @@ function Sets({ setNewWorkout, exerciseInstance }: SetsProps) {
                   />
                   <Input
                     type='number'
-                    placeholder='Weight (kg)'
+                    placeholder={`Target: ${set.weight}(kg)`}
                     min={0}
                     step={0.5}
                     onChange={(e) => {

@@ -11,7 +11,7 @@ import { createNewWorkout } from '@/lib/workouts/create';
 import { redirect } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 
-export type Exercise = Database['public']['Tables']['exercises']['Row'];
+export type Exercise = Database['public']['Tables']['exercise']['Row'];
 
 export type WorkoutExercise = {
   id: string;
@@ -42,6 +42,7 @@ export default function CreateWorkoutForm() {
   const supabase = createClient();
 
   const [state, formAction] = useFormState(createNewWorkout, initialState);
+  const { pending } = useFormStatus();
 
   const [formStage, setFormStage] = useState<number>(1);
 
@@ -131,7 +132,9 @@ export default function CreateWorkoutForm() {
         )}
         {formStage === 2 && (
           <Button asChild variant='default'>
-            <button type='submit'>Create Workout</button>
+            <button type='submit' disabled={pending}>
+              Create Workout
+            </button>
           </Button>
         )}
         {formStage === 2 && (

@@ -6,7 +6,6 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from '@/components/ui/card';
 import CreateWorkoutForm from '@/components/blocks/workouts/create/CreateWorkoutForm';
 

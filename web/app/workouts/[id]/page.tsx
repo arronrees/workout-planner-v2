@@ -43,7 +43,7 @@ export default async function Workout({ params }: { params: { id: string } }) {
 
   const { data: workout, error: workoutError } = await supabase
     .from('workouts')
-    .select('*, workout_exercises(*, workout_sets(*), exercises(*))')
+    .select('*, workout_exercises(*, workout_sets(*), exercise(*))')
     .eq('id', params.id)
     .eq('user_id', user.id)
     .single();
@@ -62,8 +62,8 @@ export default async function Workout({ params }: { params: { id: string } }) {
               <CardDescription>View the workout details</CardDescription>
             </div>
             <Button asChild size='sm' className='gap-1 max-w-max'>
-              <Link href='/workouts/create'>
-                Start Workout
+              <Link href={`/workouts/${workout.id}/record`}>
+                Record Workout
                 <ArrowUpRight className='h-4 w-4' />
               </Link>
             </Button>
@@ -81,13 +81,13 @@ export default async function Workout({ params }: { params: { id: string } }) {
                 {workout.workout_exercises.map((exercise) => (
                   <TableRow key={exercise.id}>
                     <TableCell>
-                      <p>{exercise.exercises?.name}</p>
+                      <p>{exercise.exercise?.name}</p>
                       <div className='flex gap-2 text-muted-foreground'>
-                        <span>{exercise.exercises?.equipment_needed}</span>
+                        <span>{exercise.exercise?.equipment_needed}</span>
                         <span className='flex items-center justify-center'>
                           <span className='bg-slate-300 w-[3px] h-[3px] rounded-full'></span>
                         </span>
-                        <span>{exercise.exercises?.muscle_group}</span>
+                        <span>{exercise.exercise?.muscle_group}</span>
                       </div>
                     </TableCell>
                     <TableCell>{exercise.workout_sets.length}</TableCell>
@@ -104,18 +104,16 @@ export default async function Workout({ params }: { params: { id: string } }) {
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>
-                              {exercise.exercises?.name}
-                            </DialogTitle>
+                            <DialogTitle>{exercise.exercise?.name}</DialogTitle>
                             <DialogDescription>
                               <div className='flex gap-2 text-muted-foreground mb-2'>
                                 <span>
-                                  {exercise.exercises?.equipment_needed}
+                                  {exercise.exercise?.equipment_needed}
                                 </span>
                                 <span className='flex items-center justify-center'>
                                   <span className='bg-slate-300 w-[3px] h-[3px] rounded-full'></span>
                                 </span>
-                                <span>{exercise.exercises?.muscle_group}</span>
+                                <span>{exercise.exercise?.muscle_group}</span>
                               </div>
                             </DialogDescription>
                           </DialogHeader>
@@ -159,9 +157,11 @@ export default async function Workout({ params }: { params: { id: string } }) {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
-            <CardTitle>Workout History</CardTitle>
-            <CardDescription>This workout&apos;s history</CardDescription>
+          <CardHeader className='flex flex-col gap-1 xs:flex-row xs:items-end xs:justify-between'>
+            <div className='grid gap-2'>
+              <CardTitle>Workout History</CardTitle>
+              <CardDescription>This workout&apos;s history</CardDescription>
+            </div>
           </CardHeader>
           <CardContent className='grid gap-8'>
             <Table>

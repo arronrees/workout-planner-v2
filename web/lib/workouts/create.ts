@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { checkCreateWorkoutObjectValid } from '../validation';
 
-type Exercise = Database['public']['Tables']['exercises']['Row'];
+type Exercise = Database['public']['Tables']['exercise']['Row'];
 
 type WorkoutExercise = {
   id: string;
