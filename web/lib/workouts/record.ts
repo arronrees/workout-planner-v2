@@ -42,7 +42,6 @@ export async function recordNewWorkout(
     id: data.id,
     name: data.name,
     equipment: data.equipment_needed,
-    muscle: data.muscle_focus,
     exercises: data.workout_exercises.map((workoutExercise) => ({
       id: workoutExercise.id,
       exercise: workoutExercise.exercise,
@@ -70,7 +69,6 @@ export async function recordNewWorkout(
       workout_id: workoutToParse.id,
       name: workoutToParse.name,
       equipment_needed: workoutToParse.equipment,
-      muscle_focus: workoutToParse.muscle,
       user_id: user.id,
     })
     .select()

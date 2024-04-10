@@ -12,10 +12,6 @@ export const createWorkoutModel = z
       required_error: 'Equipment is required',
       invalid_type_error: 'Equipment must be a string',
     }),
-    muscle: z.string({
-      required_error: 'Muscle group is required',
-      invalid_type_error: 'Muscle group must be a string',
-    }),
     exercises: z.array(
       z.object({
         id: z.string({
@@ -86,10 +82,6 @@ export const recordWorkoutModel = z
     equipment: z.string({
       required_error: 'Equipment is required',
       invalid_type_error: 'Equipment must be a string',
-    }),
-    muscle: z.string({
-      required_error: 'Muscle group is required',
-      invalid_type_error: 'Muscle group must be a string',
     }),
     exercises: z.array(
       z.object({

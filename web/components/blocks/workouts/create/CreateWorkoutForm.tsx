@@ -29,7 +29,6 @@ export type ExerciseSet = {
 export type NewWorkout = {
   name: string;
   equipment: string;
-  muscle: string;
   exercises: WorkoutExercise[];
 };
 
@@ -51,7 +50,6 @@ export default function CreateWorkoutForm() {
   const [newWorkout, setNewWorkout] = useState<NewWorkout>({
     name: '',
     equipment: '',
-    muscle: '',
     exercises: [],
   });
 
@@ -60,7 +58,7 @@ export default function CreateWorkoutForm() {
 
   useEffect(() => {
     async function fetchExercises() {
-      const { data, error } = await supabase.from('exercises').select('*');
+      const { data, error } = await supabase.from('exercise').select('*');
 
       if (error) {
         console.error(error);
@@ -80,7 +78,6 @@ export default function CreateWorkoutForm() {
     if (
       newWorkout.name !== '' &&
       newWorkout.equipment !== '' &&
-      newWorkout.muscle !== '' &&
       newWorkout.exercises.length > 0
     ) {
       setFormStage(2);

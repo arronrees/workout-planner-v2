@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/select';
 import { ExerciseCombobox } from '@/components/blocks/workouts/create/ExerciseCombobox';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { equipmentTypes, muscleGroups } from '@/constants';
+import { equipmentTypes } from '@/constants';
 import { Badge } from '@/components/ui/badge';
 import { XIcon } from 'lucide-react';
 import { Exercise, NewWorkout } from './CreateWorkoutForm';
@@ -94,28 +94,6 @@ export default function Stage1({
             {equipmentTypes.map((type) => (
               <SelectItem value={type} key={type}>
                 {type}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className='flex flex-col gap-2'>
-        <Label htmlFor='muscle'>Muscle Focus:</Label>
-        <Select
-          name='muscle'
-          value={newWorkout.muscle}
-          onValueChange={(value) => {
-            setNewWorkout({ ...newWorkout, muscle: value });
-          }}
-          required
-        >
-          <SelectTrigger>
-            <SelectValue placeholder='Muscle Focus' />
-          </SelectTrigger>
-          <SelectContent>
-            {muscleGroups.map((group) => (
-              <SelectItem value={group} key={group}>
-                {group}
               </SelectItem>
             ))}
           </SelectContent>

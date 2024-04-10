@@ -23,7 +23,6 @@ type ExerciseSet = {
 type NewWorkout = {
   name: string;
   equipment: string;
-  muscle: string;
   exercises: WorkoutExercise[];
 };
 
@@ -59,7 +58,6 @@ export async function createNewWorkout(
     .from('workouts')
     .insert({
       name: data.name,
-      muscle_focus: data.muscle,
       equipment_needed: data.equipment,
       user_id: user.id,
     })

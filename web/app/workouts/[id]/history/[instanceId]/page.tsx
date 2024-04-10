@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -18,17 +17,6 @@ import {
 } from '@/components/ui/table';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Fragment } from 'react';
 
 export default async function Workout({
@@ -59,8 +47,6 @@ export default async function Workout({
     redirect('/workouts');
   }
 
-  console.log(workout);
-
   return (
     <div className='flex flex-1 flex-col gap-4 md:gap-8'>
       <Card className='xl:col-span-2'>
@@ -70,7 +56,9 @@ export default async function Workout({
             <CardDescription>View the workout details</CardDescription>
           </div>
           <Button asChild size='sm' variant='secondary'>
-            <Link href={`/workouts/${workout.id}`}>Back To Workout</Link>
+            <Link href={`/workouts/${workout.workout_id}`}>
+              Back To Workout
+            </Link>
           </Button>
         </CardHeader>
         <CardContent>

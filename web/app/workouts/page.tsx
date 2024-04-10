@@ -67,7 +67,6 @@ export default async function Workouts() {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Equipment Needed</TableHead>
-                  <TableHead>Muscle Focus</TableHead>
                   <TableHead>No. of Exercises</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
@@ -80,7 +79,6 @@ export default async function Workouts() {
                         <div className='font-medium'>{workout.name}</div>
                       </TableCell>
                       <TableCell>{workout.equipment_needed}</TableCell>
-                      <TableCell>{workout.muscle_focus}</TableCell>
                       <TableCell>{workout.workout_exercises.length}</TableCell>
                       <TableCell>
                         <div className='flex items-center justify-end'>
