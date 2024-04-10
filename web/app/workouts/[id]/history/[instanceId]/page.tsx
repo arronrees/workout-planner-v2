@@ -18,6 +18,14 @@ import {
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { Fragment } from 'react';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb';
 
 export default async function Workout({
   params,
@@ -48,7 +56,29 @@ export default async function Workout({
   }
 
   return (
-    <div className='flex flex-1 flex-col gap-4 md:gap-8'>
+    <div className='flex flex-1 flex-col gap-4 md:gap-6'>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/workouts'>Workouts</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/workouts/${workout.id}`}>
+              {workout.name}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Workout History</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       <Card className='xl:col-span-2'>
         <CardHeader className='flex flex-col gap-1 xs:flex-row xs:items-end xs:justify-between'>
           <div className='grid gap-2'>

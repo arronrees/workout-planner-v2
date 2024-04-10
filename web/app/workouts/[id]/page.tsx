@@ -29,6 +29,14 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb';
 
 export default async function Workout({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -58,11 +66,28 @@ export default async function Workout({ params }: { params: { id: string } }) {
       '*, workout_exercise_instance(*, workout_set_instance(*), exercise(*))'
     )
     .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
     .eq('workout_id', workout.id);
 
   return (
-    <div className='flex flex-1 flex-col gap-4 md:gap-8'>
-      <div className='grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3'>
+    <div className='flex flex-1 flex-col gap-4 md:gap-6'>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/workouts'>Workouts</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{workout.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <div className='grid gap-4 md:gap-6 lg:grid-cols-2 xl:grid-cols-3'>
         <Card className='xl:col-span-2'>
           <CardHeader className='flex flex-col gap-1 xs:flex-row xs:items-end xs:justify-between'>
             <div className='grid gap-2'>
@@ -171,7 +196,7 @@ export default async function Workout({ params }: { params: { id: string } }) {
               <CardDescription>This workout&apos;s history</CardDescription>
             </div>
           </CardHeader>
-          <CardContent className='grid gap-8'>
+          <CardContent className='grid gap-6'>
             <Table>
               <TableHeader>
                 <TableRow>

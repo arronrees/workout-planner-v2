@@ -18,6 +18,14 @@ import {
 } from '@/components/ui/table';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 export default async function Workouts() {
   const supabase = createClient();
@@ -43,11 +51,24 @@ export default async function Workouts() {
       '*, workout_exercise_instance(*, workout_set_instance(*), exercise(*))'
     )
     .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
     .limit(20);
 
   return (
-    <div className='flex flex-1 flex-col gap-4 md:gap-8'>
-      <div className='grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3'>
+    <div className='flex flex-1 flex-col gap-4 md:gap-6'>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Workouts</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <div className='grid gap-4 md:gap-6 lg:grid-cols-2 xl:grid-cols-3'>
         <Card className='xl:col-span-2'>
           <CardHeader className='flex flex-row items-center'>
             <div className='grid gap-2'>
@@ -104,7 +125,7 @@ export default async function Workouts() {
             <CardTitle>Workout History</CardTitle>
             <CardDescription>Recent workouts completed</CardDescription>
           </CardHeader>
-          <CardContent className='grid gap-8'>
+          <CardContent className='grid gap-6'>
             <Table>
               <TableHeader>
                 <TableRow>

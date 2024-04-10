@@ -8,6 +8,14 @@ import {
   CardContent,
 } from '@/components/ui/card';
 import RecordWorkoutForm from '@/components/blocks/workouts/update/RecordWorkoutForm';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb';
 
 export default async function RecordWorkout({
   params,
@@ -36,17 +44,41 @@ export default async function RecordWorkout({
   }
 
   return (
-    <Card className='max-w-lg mx-auto'>
-      <CardHeader>
-        <CardTitle>Record your workout</CardTitle>
-        <CardDescription>
-          Record your workout to track your progress
-        </CardDescription>
-      </CardHeader>
+    <div className='flex flex-1 flex-col gap-4 md:gap-6 max-w-lg mx-auto'>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/workouts'>Workouts</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/workouts/${workout.id}`}>
+              {workout.name}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Record Workout</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
-      <CardContent>
-        {workout && <RecordWorkoutForm workout={workout} />}
-      </CardContent>
-    </Card>
+      <Card className='max-w-lg mx-auto'>
+        <CardHeader>
+          <CardTitle>Record your workout</CardTitle>
+          <CardDescription>
+            Record your workout to track your progress
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          {workout && <RecordWorkoutForm workout={workout} />}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
