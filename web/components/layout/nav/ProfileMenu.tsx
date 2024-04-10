@@ -36,14 +36,16 @@ export function ProfileMenu({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href='/profile'>
+            <Link href='/profile' className='cursor-pointer'>
               <UserIcon className='mr-2 h-4 w-4' />
               <span>Profile</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className='mr-2 h-4 w-4' />
-            <span>Preferences</span>
+          <DropdownMenuItem asChild>
+            <Link href='/profile/preferences' className='cursor-pointer'>
+              <Settings className='mr-2 h-4 w-4' />
+              <span>Preferences</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

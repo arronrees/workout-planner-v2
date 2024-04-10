@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Package2 } from 'lucide-react';
+import { Dumbbell } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/utils/shadcn/utils';
 
@@ -13,7 +13,7 @@ export default function Navbar() {
           href='#'
           className='flex items-center gap-2 text-lg font-semibold md:text-base'
         >
-          <Package2 className='h-6 w-6' />
+          <Dumbbell className='h-6 w-6' />
         </Link>
 
         <NavLink
