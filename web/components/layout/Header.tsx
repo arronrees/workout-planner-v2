@@ -23,7 +23,7 @@ export default async function Header() {
     .single();
 
   return (
-    <header className='flex items-center justify-between gap-2 bg-white border-b-[2px] border-b-slate-200 px-8 md:px-12 py-6'>
+    <header className='flex items-center justify-between gap-2 bg-white border-b-[2px] border-b-slate-200 px-6 py-6'>
       {user && (
         <div className='flex items-center gap-2'>
           <Navbar />

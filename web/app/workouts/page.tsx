@@ -152,7 +152,7 @@ export default async function Workouts() {
                             let val = 0;
 
                             curr.workout_set_instance.forEach((set) => {
-                              val += set.weight || 0 * (set.reps || 1);
+                              val += (set.weight ?? 0) * (set.reps ?? 1);
                             });
 
                             return acc + val;

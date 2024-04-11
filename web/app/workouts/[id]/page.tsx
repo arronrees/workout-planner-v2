@@ -139,7 +139,7 @@ export default async function Workout({ params }: { params: { id: string } }) {
                           <DialogHeader>
                             <DialogTitle>{exercise.exercise?.name}</DialogTitle>
                             <DialogDescription>
-                              <div className='flex gap-2 text-muted-foreground mb-2'>
+                              <span className='flex gap-2 text-muted-foreground mb-2'>
                                 <span>
                                   {exercise.exercise?.equipment_needed}
                                 </span>
@@ -147,7 +147,7 @@ export default async function Workout({ params }: { params: { id: string } }) {
                                   <span className='bg-slate-300 w-[3px] h-[3px] rounded-full'></span>
                                 </span>
                                 <span>{exercise.exercise?.muscle_group}</span>
-                              </div>
+                              </span>
                             </DialogDescription>
                           </DialogHeader>
                           <div className='flex flex-col gap-4'>
