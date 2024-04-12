@@ -88,7 +88,9 @@ export default async function Exercises() {
           <CardHeader className='flex flex-row items-center'>
             <div className='grid gap-2'>
               <CardTitle>Exercises</CardTitle>
-              <CardDescription>View a list of your workouts</CardDescription>
+              <CardDescription>
+                Here shows the progress of all the exercises you have performed
+              </CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -105,7 +107,7 @@ export default async function Exercises() {
               <TableBody>
                 {allExercises &&
                   allExercises.map((exercise) => {
-                    const thisWeekReps =
+                    const thisWeekReps: number =
                       exercisesThisWeek
                         ?.find((e) => e.id === exercise.id)
                         ?.workout_exercise_instance.reduce((acc, curr) => {
@@ -116,7 +118,7 @@ export default async function Exercises() {
                             }, 0)
                           );
                         }, 0) ?? 0;
-                    const thisWeekWeight =
+                    const thisWeekWeight: number =
                       exercisesThisWeek
                         ?.find((e) => e.id === exercise.id)
                         ?.workout_exercise_instance.reduce((acc, curr) => {
@@ -127,7 +129,7 @@ export default async function Exercises() {
                             }, 0)
                           );
                         }, 0) ?? 0;
-                    const lastWeekReps =
+                    const lastWeekReps: number =
                       exercisesLastWeek
                         ?.find((e) => e.id === exercise.id)
                         ?.workout_exercise_instance.reduce((acc, curr) => {
@@ -138,7 +140,7 @@ export default async function Exercises() {
                             }, 0)
                           );
                         }, 0) ?? 0;
-                    const lastWeekWeight =
+                    const lastWeekWeight: number =
                       exercisesLastWeek
                         ?.find((e) => e.id === exercise.id)
                         ?.workout_exercise_instance.reduce((acc, curr) => {
@@ -150,18 +152,18 @@ export default async function Exercises() {
                           );
                         }, 0) ?? 0;
 
-                    const percentageChange =
+                    const percentageChange: number =
                       ((thisWeekWeight - lastWeekWeight) / lastWeekWeight) *
                       100;
 
-                    const percentageToDisplay =
+                    const percentageToDisplay: string | number =
                       percentageChange === 0
                         ? 0
                         : !!parseInt(percentageChange.toString())
                         ? percentageChange.toFixed(2)
                         : '';
 
-                    const percentageClass =
+                    const percentageClass: string =
                       percentageChange === 0
                         ? 'text-orange-500'
                         : percentageChange > 0
@@ -186,7 +188,9 @@ export default async function Exercises() {
                           </span>
                         </TableCell>
                         <TableCell className={percentageClass}>
-                          {percentageToDisplay}%
+                          {percentageToDisplay || percentageToDisplay === 0
+                            ? percentageToDisplay + '%'
+                            : ''}
                         </TableCell>
                         <TableCell className='text-right'>
                           <div className='flex items-center justify-end'>
