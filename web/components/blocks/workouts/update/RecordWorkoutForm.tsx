@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Database } from '@/database.types';
 import { ChevronDown, ChevronUp, XIcon } from 'lucide-react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import randomstring from 'randomstring';
 import { useToast } from '@/components/ui/use-toast';
 import { useFormState, useFormStatus } from 'react-dom';
@@ -99,9 +99,9 @@ export default function RecordWorkoutForm({ workout }: Props) {
         title: 'Workout recorded',
         description: 'View your recorded workout in your dashboard',
       });
-      redirect('/');
+      redirect(`/workouts/${workout.id}`);
     }
-  }, [state.success, toast]);
+  }, [state.success, toast, workout]);
 
   return (
     <form className='flex flex-col gap-4' action={formAction}>
@@ -233,6 +233,43 @@ function Sets({ sets, setNewWorkout, exerciseInstance }: SetsProps) {
     }));
   }
 
+  return (
+    <Card className='bg-slate-50/60'>
+      <CardContent className='p-4'>
+        <div className='flex flex-col gap-2'>
+          {sets && sets.length > 0 ? (
+            sets.map((set, index) => (
+              <Set
+                key={set.id}
+                set={set}
+                index={index}
+                setNewWorkout={setNewWorkout}
+                exerciseInstance={exerciseInstance}
+              />
+            ))
+          ) : (
+            <p className='font-medium text-muted-foreground'>No sets created</p>
+          )}
+          <Button variant='ghost' className='max-w-max' onClick={addSet}>
+            Add Set
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+interface SetProps {
+  set: Database['public']['Tables']['workout_sets']['Row'];
+  index: number;
+  setNewWorkout: Dispatch<SetStateAction<Workout>>;
+  exerciseInstance: Database['public']['Tables']['workout_exercises']['Row'];
+}
+
+function Set({ set, index, setNewWorkout, exerciseInstance }: SetProps) {
+  const targetReps = useMemo(() => set.reps, []);
+  const targetWeight = useMemo(() => set.weight, []);
+
   function updateSetReps(reps: number, id: string) {
     setNewWorkout((prev) => ({
       ...prev,
@@ -300,59 +337,44 @@ function Sets({ sets, setNewWorkout, exerciseInstance }: SetsProps) {
   }
 
   return (
-    <Card className='bg-slate-50/60'>
-      <CardContent className='p-4'>
-        <div className='flex flex-col gap-2'>
-          {sets && sets.length > 0 ? (
-            sets.map((set, index) => (
-              <div key={set.id}>
-                <p className='font-semibold mb-1'>Set {index + 1}</p>
-                <div className='flex gap-1'>
-                  <Input
-                    type='number'
-                    placeholder={`Target: ${set.reps}`}
-                    min={0}
-                    onChange={(e) => {
-                      e.preventDefault();
+    <div>
+      <p className='font-semibold mb-1'>Set {index + 1}</p>
+      <div className='flex gap-1'>
+        <Input
+          type='number'
+          placeholder={`Target: ${targetReps}`}
+          min={0}
+          onChange={(e) => {
+            e.preventDefault();
 
-                      if (e.target.value) {
-                        updateSetReps(parseInt(e.target.value), set.id);
-                      }
-                    }}
-                    autoFocus
-                  />
-                  <Input
-                    type='number'
-                    placeholder={`Target: ${set.weight}(kg)`}
-                    min={0}
-                    step={0.5}
-                    onChange={(e) => {
-                      e.preventDefault();
+            if (e.target.value) {
+              updateSetReps(parseInt(e.target.value), set.id);
+            }
+          }}
+          autoFocus
+        />
+        <Input
+          type='number'
+          placeholder={`Target: ${targetWeight}(kg)`}
+          min={0}
+          step={0.5}
+          onChange={(e) => {
+            e.preventDefault();
 
-                      if (e.target.value) {
-                        updateSetWeight(parseInt(e.target.value), set.id);
-                      }
-                    }}
-                  />
-                  <Button
-                    variant='ghost'
-                    className='max-w-max p-2'
-                    type='button'
-                    onClick={(e) => removeSet(set.id)}
-                  >
-                    <XIcon className='w-3 h-3' />
-                  </Button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className='font-medium text-muted-foreground'>No sets created</p>
-          )}
-          <Button variant='ghost' className='max-w-max' onClick={addSet}>
-            Add Set
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+            if (e.target.value) {
+              updateSetWeight(parseInt(e.target.value), set.id);
+            }
+          }}
+        />
+        <Button
+          variant='ghost'
+          className='max-w-max p-2'
+          type='button'
+          onClick={(e) => removeSet(set.id)}
+        >
+          <XIcon className='w-3 h-3' />
+        </Button>
+      </div>
+    </div>
   );
 }

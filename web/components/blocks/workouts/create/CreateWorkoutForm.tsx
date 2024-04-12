@@ -94,7 +94,7 @@ export default function CreateWorkoutForm() {
         title: 'Workout created',
         description: 'View your new workout in your dashboard',
       });
-      redirect('/');
+      redirect('/workouts');
     }
   }, [state.success, toast]);
 
