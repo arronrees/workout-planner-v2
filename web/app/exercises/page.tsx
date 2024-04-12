@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -26,6 +25,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import ExercisePB from '@/components/blocks/exercises/ExercisePB';
 
 export default async function Exercises() {
   const supabase = createClient();
@@ -98,26 +98,15 @@ export default async function Exercises() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead>Reps</TableHead>
-                  <TableHead>Weight</TableHead>
+                  <TableHead>Weight this week</TableHead>
                   <TableHead>% vs previous week</TableHead>
+                  <TableHead>PB</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {allExercises &&
                   allExercises.map((exercise) => {
-                    const thisWeekReps: number =
-                      exercisesThisWeek
-                        ?.find((e) => e.id === exercise.id)
-                        ?.workout_exercise_instance.reduce((acc, curr) => {
-                          return (
-                            acc +
-                            curr.workout_set_instance.reduce((nacc, ncurr) => {
-                              return nacc + (ncurr.reps ?? 0);
-                            }, 0)
-                          );
-                        }, 0) ?? 0;
                     const thisWeekWeight: number =
                       exercisesThisWeek
                         ?.find((e) => e.id === exercise.id)
@@ -129,17 +118,7 @@ export default async function Exercises() {
                             }, 0)
                           );
                         }, 0) ?? 0;
-                    const lastWeekReps: number =
-                      exercisesLastWeek
-                        ?.find((e) => e.id === exercise.id)
-                        ?.workout_exercise_instance.reduce((acc, curr) => {
-                          return (
-                            acc +
-                            curr.workout_set_instance.reduce((nacc, ncurr) => {
-                              return nacc + (ncurr.reps ?? 0);
-                            }, 0)
-                          );
-                        }, 0) ?? 0;
+
                     const lastWeekWeight: number =
                       exercisesLastWeek
                         ?.find((e) => e.id === exercise.id)
@@ -175,12 +154,6 @@ export default async function Exercises() {
                         <TableCell>
                           <div className='font-medium'>{exercise.name}</div>
                         </TableCell>
-                        <TableCell>
-                          {thisWeekReps}
-                          <span className='text-muted-foreground text-xs ml-2'>
-                            ({lastWeekReps})
-                          </span>
-                        </TableCell>
                         <TableCell className='font-medium'>
                           {thisWeekWeight}kg
                           <span className='text-muted-foreground text-xs ml-2'>
@@ -191,6 +164,9 @@ export default async function Exercises() {
                           {percentageToDisplay || percentageToDisplay === 0
                             ? percentageToDisplay + '%'
                             : ''}
+                        </TableCell>
+                        <TableCell>
+                          <ExercisePB id={exercise.id} user={user} />
                         </TableCell>
                         <TableCell className='text-right'>
                           <div className='flex items-center justify-end'>
