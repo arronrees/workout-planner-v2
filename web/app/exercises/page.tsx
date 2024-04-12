@@ -96,31 +96,10 @@ export default async function Exercises() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead>
-                    <span className='flex flex-col gap-1'>
-                      <span>Reps</span>
-                      <span>This week</span>
-                    </span>
-                  </TableHead>
-                  <TableHead>
-                    <span className='flex flex-col gap-1'>
-                      <span>Weight</span>
-                      <span>This week</span>
-                    </span>
-                  </TableHead>
-                  <TableHead>
-                    <span className='flex flex-col gap-1'>
-                      <span>Reps</span>
-                      <span>Last week</span>
-                    </span>
-                  </TableHead>
-                  <TableHead>
-                    <span className='flex flex-col gap-1'>
-                      <span>Weight</span>
-                      <span>Last week</span>
-                    </span>
-                  </TableHead>
-                  <TableHead>%</TableHead>
+                  <TableHead>Reps</TableHead>
+                  <TableHead>Weight</TableHead>
+                  <TableHead>% vs previous week</TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -194,20 +173,33 @@ export default async function Exercises() {
                         <TableCell>
                           <div className='font-medium'>{exercise.name}</div>
                         </TableCell>
-                        <TableCell>{thisWeekReps}</TableCell>
+                        <TableCell>
+                          {thisWeekReps}
+                          <span className='text-muted-foreground text-xs ml-2'>
+                            ({lastWeekReps})
+                          </span>
+                        </TableCell>
                         <TableCell className='font-medium'>
-                          {thisWeekWeight}
-                          kg
-                        </TableCell>
-                        <TableCell className='text-muted-foreground'>
-                          {lastWeekReps}
-                        </TableCell>
-                        <TableCell className='font-medium text-muted-foreground'>
-                          {lastWeekWeight}
-                          kg
+                          {thisWeekWeight}kg
+                          <span className='text-muted-foreground text-xs ml-2'>
+                            ({lastWeekWeight}kg)
+                          </span>
                         </TableCell>
                         <TableCell className={percentageClass}>
-                          {percentageToDisplay}
+                          {percentageToDisplay}%
+                        </TableCell>
+                        <TableCell className='text-right'>
+                          <div className='flex items-center justify-end'>
+                            <Button
+                              variant='outline'
+                              className='block ml-auto'
+                              asChild
+                            >
+                              <Link href={`/exercises/${exercise.id}`}>
+                                View
+                              </Link>
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     );
