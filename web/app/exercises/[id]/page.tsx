@@ -104,14 +104,14 @@ export default async function Exercises({
                 {instances &&
                   instances.map((instance, index) => {
                     const reps: number = instance.workout_set_instance.reduce(
-                      (arr, curr) => {
+                      (arr, curr: any) => {
                         return arr + (curr.reps ?? 0);
                       },
                       0
                     );
 
                     const weight: number = instance.workout_set_instance.reduce(
-                      (arr, curr) => {
+                      (arr, curr: any) => {
                         return arr + (curr.weight ?? 0);
                       },
                       0
@@ -122,7 +122,7 @@ export default async function Exercises({
                     if (!(index + 1 >= instances.length)) {
                       weightLastWeek = instances[
                         index + 1
-                      ]?.workout_set_instance.reduce((arr, curr) => {
+                      ]?.workout_set_instance.reduce((arr, curr: any) => {
                         return arr + (curr.weight ?? 0);
                       }, 0);
                     }
@@ -153,7 +153,7 @@ export default async function Exercises({
                     // start week
                     let weightStartWeek: number = instances[
                       instances.length - 1
-                    ]?.workout_set_instance.reduce((arr, curr) => {
+                    ]?.workout_set_instance.reduce((arr, curr: any) => {
                       return arr + (curr.weight ?? 0);
                     }, 0);
 

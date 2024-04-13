@@ -111,11 +111,11 @@ export default async function Exercises() {
                       exercisesThisWeek
                         ?.find((e) => e.id === exercise.id)
                         ?.workout_exercise_instance.reduce(
-                          (acc: number, curr) => {
+                          (acc: number, curr: any) => {
                             return (
                               acc +
                               curr.workout_set_instance.reduce(
-                                (nacc, ncurr) => {
+                                (nacc, ncurr: any) => {
                                   return nacc + (ncurr.weight ?? 0);
                                 },
                                 0
@@ -129,11 +129,11 @@ export default async function Exercises() {
                       exercisesLastWeek
                         ?.find((e) => e.id === exercise.id)
                         ?.workout_exercise_instance.reduce(
-                          (acc: number, curr) => {
+                          (acc: number, curr: any) => {
                             return (
                               acc +
                               curr.workout_set_instance.reduce(
-                                (nacc, ncurr) => {
+                                (nacc, ncurr: any) => {
                                   return nacc + (ncurr.weight ?? 0);
                                 },
                                 0

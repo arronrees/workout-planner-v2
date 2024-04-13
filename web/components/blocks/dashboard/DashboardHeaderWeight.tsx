@@ -25,7 +25,7 @@ export default function DashboardHeaderWeight({ user }: { user: User }) {
 
       if (sets) {
         setTotalWeightLifted(
-          sets.reduce((acc: number, curr) => {
+          sets.reduce((acc: number, curr: any) => {
             return acc + (curr.reps ?? 1) * (curr.weight ?? 0);
           }, 0)
         );
