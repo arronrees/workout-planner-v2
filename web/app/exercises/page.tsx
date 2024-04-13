@@ -32,7 +32,6 @@ export default async function Exercises() {
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -115,7 +114,7 @@ export default async function Exercises() {
                             return (
                               acc +
                               curr.workout_set_instance.reduce(
-                                (nacc, ncurr: any) => {
+                                (nacc: number, ncurr: any) => {
                                   return nacc + (ncurr.weight ?? 0);
                                 },
                                 0
@@ -133,7 +132,7 @@ export default async function Exercises() {
                             return (
                               acc +
                               curr.workout_set_instance.reduce(
-                                (nacc, ncurr: any) => {
+                                (nacc: number, ncurr: any) => {
                                   return nacc + (ncurr.weight ?? 0);
                                 },
                                 0
@@ -150,7 +149,7 @@ export default async function Exercises() {
                     const percentageToDisplay: string | number =
                       percentageChange === 0
                         ? 0
-                        : !!parseInt(percentageChange.toString())
+                        : parseInt(percentageChange.toString())
                         ? percentageChange.toFixed(2)
                         : '';
 

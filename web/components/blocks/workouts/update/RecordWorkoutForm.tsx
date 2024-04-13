@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -269,7 +270,9 @@ interface SetProps {
 }
 
 function Set({ set, index, setNewWorkout, exerciseInstance }: SetProps) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const targetReps = useMemo(() => set.reps, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const targetWeight = useMemo(() => set.weight, []);
 
   function updateSetReps(reps: number, id: string) {
@@ -372,7 +375,7 @@ function Set({ set, index, setNewWorkout, exerciseInstance }: SetProps) {
           variant='ghost'
           className='max-w-max p-2'
           type='button'
-          onClick={(e) => removeSet(set.id)}
+          onClick={() => removeSet(set.id)}
         >
           <XIcon className='w-3 h-3' />
         </Button>

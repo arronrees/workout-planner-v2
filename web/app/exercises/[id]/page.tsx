@@ -35,7 +35,6 @@ export default async function Exercises({
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -138,7 +137,7 @@ export default async function Exercises({
                       percentageLastToDisplay =
                         percentageLastChange === 0
                           ? 0
-                          : !!parseInt(percentageLastChange.toString())
+                          : parseInt(percentageLastChange.toString())
                           ? percentageLastChange.toFixed(2)
                           : '';
 
@@ -168,7 +167,7 @@ export default async function Exercises({
                       percentageStartToDisplay =
                         percentageStartChange === 0
                           ? 0
-                          : !!parseInt(percentageStartChange.toString())
+                          : parseInt(percentageStartChange.toString())
                           ? percentageStartChange.toFixed(2)
                           : '';
 

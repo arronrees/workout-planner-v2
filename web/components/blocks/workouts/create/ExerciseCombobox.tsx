@@ -85,7 +85,7 @@ export function ExerciseCombobox({
                       <CommandItem
                         key={exercise.id}
                         value={exercise.name}
-                        onSelect={(currentValue) => {
+                        onSelect={() => {
                           addExercise(exercise);
                           removeFromExerciseList(exercise.id);
                         }}

@@ -49,8 +49,9 @@ export async function updateProfile(
       displayName: formData.get('displayName') as string,
     };
 
-    const { success, error: validationError } =
-      await checkProfileUpdateObjectValid(data);
+    const { error: validationError } = await checkProfileUpdateObjectValid(
+      data
+    );
 
     if (validationError) {
       console.error('Update Profile Validation Error: ', validationError);
@@ -58,7 +59,7 @@ export async function updateProfile(
       return { errorMessage: validationError, success: false };
     }
 
-    const { error, data: updateProfileData } = await supabase
+    const { error } = await supabase
       .from('user_profiles')
       .update({
         display_name: data.displayName,

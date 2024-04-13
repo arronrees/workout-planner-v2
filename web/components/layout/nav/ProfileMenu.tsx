@@ -15,13 +15,7 @@ import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { type User } from '@supabase/supabase-js';
 import Link from 'next/link';
 
-export function ProfileMenu({
-  user,
-  profile,
-}: {
-  user: User | null;
-  profile: any;
-}) {
+export function ProfileMenu({ user }: { user: User | null; profile: any }) {
   if (!user) return null;
 
   return (

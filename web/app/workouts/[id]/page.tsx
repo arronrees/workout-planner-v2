@@ -37,6 +37,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb';
+import { Database } from '@/database.types';
 
 export default async function Workout({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -49,7 +50,7 @@ export default async function Workout({ params }: { params: { id: string } }) {
     redirect('/');
   }
 
-  const { data: workout, error: workoutError } = await supabase
+  const { data: workout } = await supabase
     .from('workouts')
     .select('*, workout_exercises(*, workout_sets(*), exercise(*))')
     .eq('id', params.id)
@@ -221,9 +222,13 @@ export default async function Workout({ params }: { params: { id: string } }) {
                           (acc: number, curr: any) => {
                             let val = 0;
 
-                            curr.workout_set_instance.forEach((set) => {
-                              val += set.weight || 0 * (set.reps || 1);
-                            });
+                            curr.workout_set_instance.forEach(
+                              (
+                                set: Database['public']['Tables']['workout_set_instance']['Row']
+                              ) => {
+                                val += set.weight || 0 * (set.reps || 1);
+                              }
+                            );
 
                             return acc + val;
                           },

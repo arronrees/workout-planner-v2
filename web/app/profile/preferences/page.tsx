@@ -13,7 +13,7 @@ export default async function Preferences() {
     redirect('/');
   }
 
-  const { data: preferences, error } = await supabase
+  const { data: preferences } = await supabase
     .from('user_preferences')
     .select()
     .eq('user_id', user?.id)

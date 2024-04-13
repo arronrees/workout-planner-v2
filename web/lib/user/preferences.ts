@@ -49,8 +49,9 @@ export async function updatePreferences(
       weightUnit: formData.get('weightUnit') as string,
     };
 
-    const { success, error: validationError } =
-      await checkPreferencesUpdateObjectValid(data);
+    const { error: validationError } = await checkPreferencesUpdateObjectValid(
+      data
+    );
 
     if (validationError) {
       console.error('Update Preferences Validation Error: ', validationError);
@@ -58,7 +59,7 @@ export async function updatePreferences(
       return { errorMessage: validationError, success: false };
     }
 
-    const { error, data: updatePreferencesData } = await supabase
+    const { error } = await supabase
       .from('user_preferences')
       .update({
         weight_unit: data.weightUnit,

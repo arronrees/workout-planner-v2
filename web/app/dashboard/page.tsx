@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Activity, ArrowUpRight, Clock, Dumbbell, Weight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -19,13 +19,13 @@ import {
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import DashboardHeader from '@/components/blocks/dashboard/DashboardHeader';
+import { Database } from '@/database.types';
 
 export default async function Dashboard() {
   const supabase = createClient();
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -84,9 +84,13 @@ export default async function Dashboard() {
                           (acc: number, curr: any) => {
                             let val = 0;
 
-                            curr.workout_set_instance.forEach((set) => {
-                              val += (set.weight ?? 0) * (set.reps ?? 1);
-                            });
+                            curr.workout_set_instance.forEach(
+                              (
+                                set: Database['public']['Tables']['workout_set_instance']['Row']
+                              ) => {
+                                val += (set.weight ?? 0) * (set.reps ?? 1);
+                              }
+                            );
 
                             return acc + val;
                           },

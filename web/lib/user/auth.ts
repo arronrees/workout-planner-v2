@@ -24,9 +24,7 @@ export async function login(
     password: formData.get('password') as string,
   };
 
-  const { success, error: validationError } = await checkUserSigninObjectValid(
-    data
-  );
+  const { error: validationError } = await checkUserSigninObjectValid(data);
 
   if (validationError) {
     console.error('Signin Validation Error: ', validationError);
@@ -34,9 +32,7 @@ export async function login(
     return { errorMessage: validationError, success: false };
   }
 
-  const { error, data: signinData } = await supabase.auth.signInWithPassword(
-    data
-  );
+  const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
     console.error('Signin Auth Error: ', error);
@@ -64,9 +60,7 @@ export async function signup(
     password: formData.get('password') as string,
   };
 
-  const { success, error: validationError } = await checkUserSignupObjectValid(
-    data
-  );
+  const { error: validationError } = await checkUserSignupObjectValid(data);
 
   if (validationError) {
     console.error('Signup Validation Error: ', validationError);
@@ -92,12 +86,12 @@ export async function signup(
   }
 
   if (signupData && signupData.user) {
-    const profile = await createUserProfile(
+    await createUserProfile(
       signupData.user.id,
       signupData.user.user_metadata?.first_name
     );
 
-    const preferences = await createUserPreferences(signupData.user.id);
+    await createUserPreferences(signupData.user.id);
   }
 
   revalidatePath('/', 'layout');
@@ -115,7 +109,7 @@ export async function forgotPassword(
 
   const email = formData.get('email') as string;
 
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/reset-password`,
   });
 
@@ -145,7 +139,7 @@ export async function resetPassword(
     return { errorMessage: 'Passwords do not match', success: false };
   }
 
-  const { data, error } = await supabase.auth.updateUser({ password });
+  const { error } = await supabase.auth.updateUser({ password });
 
   if (error) {
     console.error('Reset Password Auth Error: ', error);
@@ -172,9 +166,7 @@ export async function updateUser(
     email: formData.get('email') as string,
   };
 
-  const { success, error: validationError } = await checkUserUpdateObjectValid(
-    data
-  );
+  const { error: validationError } = await checkUserUpdateObjectValid(data);
 
   if (validationError) {
     console.error('Update User Validation Error: ', validationError);
@@ -182,7 +174,7 @@ export async function updateUser(
     return { errorMessage: validationError, success: false };
   }
 
-  const { error, data: updateUserData } = await supabase.auth.updateUser({
+  const { error } = await supabase.auth.updateUser({
     email: data.email,
     data: {
       first_name: data.firstName,
@@ -216,7 +208,7 @@ export async function updateUserPassword(
     return { errorMessage: 'Passwords do not match', success: false };
   }
 
-  const { data, error } = await supabase.auth.updateUser({ password });
+  const { error } = await supabase.auth.updateUser({ password });
 
   if (error) {
     console.error('Reset Password Auth Error: ', error);

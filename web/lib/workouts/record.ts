@@ -3,12 +3,7 @@
 import { Database } from '@/database.types';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
-import {
-  checkCreateWorkoutObjectValid,
-  checkRecordWorkoutObjectValid,
-} from '../validation';
-
-type Exercise = Database['public']['Tables']['exercise']['Row'];
+import { checkRecordWorkoutObjectValid } from '../validation';
 
 type Workout = Database['public']['Tables']['workouts']['Row'] & {
   workout_exercises: Array<
@@ -54,8 +49,9 @@ export async function recordNewWorkout(
     })),
   };
 
-  const { success, error: validationError } =
-    await checkRecordWorkoutObjectValid(workoutToParse);
+  const { error: validationError } = await checkRecordWorkoutObjectValid(
+    workoutToParse
+  );
 
   if (validationError) {
     console.error('Record Workout Validation Error: ', validationError);
@@ -79,8 +75,8 @@ export async function recordNewWorkout(
     return { errorMessage: 'Could not record workout', success: false };
   }
 
-  let exerciseError = null;
-  let setsError = null;
+  let exerciseError: string | null = null;
+  let setsError: string | null = null;
 
   for (let i = 0; i < data.workout_exercises.length; i++) {
     const exerciseInstance = data.workout_exercises[i];
@@ -111,17 +107,21 @@ export async function recordNewWorkout(
         );
 
       if (setError) {
-        setsError = setError;
+        setsError = setError.message;
       }
     }
 
     if (error) {
-      exerciseError = error;
+      exerciseError = error.message;
     }
   }
 
   if (exerciseError) {
     console.log(exerciseError);
+
+    if (setsError) {
+      console.log(setsError);
+    }
 
     return {
       errorMessage: 'Error adding exercises to workout',

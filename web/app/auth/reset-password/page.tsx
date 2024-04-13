@@ -1,7 +1,6 @@
 'use client';
 
 import ResetPasswordForm from '@/components/blocks/auth/ResetPasswordForm';
-import DividerLine from '@/components/layout/DividerLine';
 import {
   Card,
   CardContent,

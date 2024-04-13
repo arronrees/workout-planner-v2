@@ -1,3 +1,4 @@
+import * as React from 'react';
 import SettingsNav from '@/components/blocks/settings/SettingsNav';
 
 export default function Layout({ children }: { children: React.ReactNode }) {

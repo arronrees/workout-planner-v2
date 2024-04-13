@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -26,13 +25,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Database } from '@/database.types';
 
 export default async function Workouts() {
   const supabase = createClient();
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -97,9 +96,13 @@ export default async function Workouts() {
                         (acc: number, curr: any) => {
                           let val = 0;
 
-                          curr.workout_set_instance.forEach((set) => {
-                            val += (set.weight ?? 0) * (set.reps ?? 1);
-                          });
+                          curr.workout_set_instance.forEach(
+                            (
+                              set: Database['public']['Tables']['workout_set_instance']['Row']
+                            ) => {
+                              val += (set.weight ?? 0) * (set.reps ?? 1);
+                            }
+                          );
 
                           return acc + val;
                         },

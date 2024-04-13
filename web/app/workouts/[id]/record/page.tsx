@@ -32,7 +32,7 @@ export default async function RecordWorkout({
     redirect('/');
   }
 
-  const { data: workout, error: workoutError } = await supabase
+  const { data: workout } = await supabase
     .from('workouts')
     .select('*, workout_exercises(*, workout_sets(*), exercise(*))')
     .eq('id', params.id)

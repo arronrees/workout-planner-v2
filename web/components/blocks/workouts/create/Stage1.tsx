@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ExerciseCombobox } from '@/components/blocks/workouts/create/ExerciseCombobox';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { equipmentTypes } from '@/constants';
 import { Badge } from '@/components/ui/badge';
 import { XIcon } from 'lucide-react';

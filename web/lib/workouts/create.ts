@@ -45,8 +45,7 @@ export async function createNewWorkout(
 
   const data = JSON.parse(formData.get('workout') as string) as NewWorkout;
 
-  const { success, error: validationError } =
-    await checkCreateWorkoutObjectValid(data);
+  const { error: validationError } = await checkCreateWorkoutObjectValid(data);
 
   if (validationError) {
     console.error('Create Workout Validation Error: ', validationError);
@@ -69,8 +68,8 @@ export async function createNewWorkout(
     return { errorMessage: 'Could not add workout', success: false };
   }
 
-  let exerciseError = null;
-  let setsError = null;
+  let exerciseError: string | null = null;
+  let setsError: string | null = null;
 
   for (let i = 0; i < data.exercises.length; i++) {
     const exerciseInstance = data.exercises[i];
@@ -97,17 +96,21 @@ export async function createNewWorkout(
       );
 
       if (setError) {
-        setsError = setError;
+        setsError = setError.message;
       }
     }
 
     if (error) {
-      exerciseError = error;
+      exerciseError = error.message;
     }
   }
 
   if (exerciseError) {
     console.log(exerciseError);
+
+    if (setsError) {
+      console.log(setsError);
+    }
 
     return {
       errorMessage: 'Error adding exercises to workout',

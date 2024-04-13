@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,8 +11,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ChevronDown, ChevronUp, X, XIcon } from 'lucide-react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { ChevronDown, ChevronUp, XIcon } from 'lucide-react';
+import { Dispatch, SetStateAction } from 'react';
 import randomstring from 'randomstring';
 import { Exercise, NewWorkout, WorkoutExercise } from './CreateWorkoutForm';
 
@@ -309,7 +310,7 @@ function Sets({ setNewWorkout, exerciseInstance }: SetsProps) {
                     variant='ghost'
                     className='max-w-max p-2'
                     type='button'
-                    onClick={(e) => removeSet(set.id)}
+                    onClick={() => removeSet(set.id)}
                   >
                     <XIcon className='w-3 h-3' />
                   </Button>
