@@ -110,26 +110,38 @@ export default async function Exercises() {
                     const thisWeekWeight: number =
                       exercisesThisWeek
                         ?.find((e) => e.id === exercise.id)
-                        ?.workout_exercise_instance.reduce((acc, curr) => {
-                          return (
-                            acc +
-                            curr.workout_set_instance.reduce((nacc, ncurr) => {
-                              return nacc + (ncurr.weight ?? 0);
-                            }, 0)
-                          );
-                        }, 0) ?? 0;
+                        ?.workout_exercise_instance.reduce(
+                          (acc: number, curr) => {
+                            return (
+                              acc +
+                              curr.workout_set_instance.reduce(
+                                (nacc, ncurr) => {
+                                  return nacc + (ncurr.weight ?? 0);
+                                },
+                                0
+                              )
+                            );
+                          },
+                          0
+                        ) ?? 0;
 
                     const lastWeekWeight: number =
                       exercisesLastWeek
                         ?.find((e) => e.id === exercise.id)
-                        ?.workout_exercise_instance.reduce((acc, curr) => {
-                          return (
-                            acc +
-                            curr.workout_set_instance.reduce((nacc, ncurr) => {
-                              return nacc + (ncurr.weight ?? 0);
-                            }, 0)
-                          );
-                        }, 0) ?? 0;
+                        ?.workout_exercise_instance.reduce(
+                          (acc: number, curr) => {
+                            return (
+                              acc +
+                              curr.workout_set_instance.reduce(
+                                (nacc, ncurr) => {
+                                  return nacc + (ncurr.weight ?? 0);
+                                },
+                                0
+                              )
+                            );
+                          },
+                          0
+                        ) ?? 0;
 
                     const percentageChange: number =
                       ((thisWeekWeight - lastWeekWeight) / lastWeekWeight) *

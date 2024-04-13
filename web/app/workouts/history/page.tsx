@@ -93,15 +93,18 @@ export default async function Workouts() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {workout.workout_exercise_instance.reduce((acc, curr) => {
-                        let val = 0;
+                      {workout.workout_exercise_instance.reduce(
+                        (acc: number, curr) => {
+                          let val = 0;
 
-                        curr.workout_set_instance.forEach((set) => {
-                          val += (set.weight ?? 0) * (set.reps ?? 1);
-                        });
+                          curr.workout_set_instance.forEach((set) => {
+                            val += (set.weight ?? 0) * (set.reps ?? 1);
+                          });
 
-                        return acc + val;
-                      }, 0)}
+                          return acc + val;
+                        },
+                        0
+                      )}
                       kg
                     </TableCell>
                     <TableCell>

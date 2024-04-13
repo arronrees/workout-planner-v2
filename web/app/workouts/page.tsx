@@ -153,7 +153,7 @@ export default async function Workouts() {
                       </TableCell>
                       <TableCell>
                         {workout.workout_exercise_instance.reduce(
-                          (acc, curr) => {
+                          (acc: number, curr) => {
                             let val = 0;
 
                             curr.workout_set_instance.forEach((set) => {

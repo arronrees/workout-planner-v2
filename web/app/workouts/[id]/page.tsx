@@ -218,7 +218,7 @@ export default async function Workout({ params }: { params: { id: string } }) {
                       </TableCell>
                       <TableCell>
                         {workout.workout_exercise_instance.reduce(
-                          (acc, curr) => {
+                          (acc: number, curr) => {
                             let val = 0;
 
                             curr.workout_set_instance.forEach((set) => {
