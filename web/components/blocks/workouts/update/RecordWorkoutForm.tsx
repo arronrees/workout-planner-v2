@@ -26,7 +26,7 @@ interface Props {
 type Workout = Database['public']['Tables']['workouts']['Row'] & {
   workout_exercises: Array<
     Database['public']['Tables']['workout_exercises']['Row'] & {
-      exercise: Database['public']['Tables']['exercise']['Row'];
+      exercise: Database['public']['Tables']['exercise']['Row'] | null;
       workout_sets: Array<Database['public']['Tables']['workout_sets']['Row']>;
     }
   >;
@@ -49,7 +49,7 @@ export default function RecordWorkoutForm({ workout }: Props) {
     setNewWorkout((prev) => ({
       ...prev,
       workout_exercises: prev.workout_exercises
-        .filter((exerciseInstance) => exerciseInstance.exercise.id !== id)
+        .filter((exerciseInstance) => exerciseInstance.exercise?.id !== id)
         .map((exerciseInstance) =>
           exerciseInstance.sort_order > sort_order
             ? {
@@ -114,7 +114,7 @@ export default function RecordWorkoutForm({ workout }: Props) {
               <div className='flex gap-2 justify-between items-end'>
                 <div>
                   <CardTitle className='text-sm'>
-                    {exercise.exercise.name}
+                    {exercise.exercise?.name}
                   </CardTitle>
                   <CardDescription className='text-xs'>
                     Add sets and reps
@@ -171,10 +171,12 @@ export default function RecordWorkoutForm({ workout }: Props) {
                 onClick={(e) => {
                   e.preventDefault();
 
-                  removeSelectedExercise(
-                    exercise.exercise.id,
-                    exercise.sort_order
-                  );
+                  if (exercise.exercise) {
+                    removeSelectedExercise(
+                      exercise.exercise.id,
+                      exercise.sort_order
+                    );
+                  }
                 }}
                 className='flex gap-2 items-center ml-auto p-2 h-auto text-xs'
               >
