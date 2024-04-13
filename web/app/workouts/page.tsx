@@ -52,7 +52,7 @@ export default async function Workouts() {
     )
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
-    .limit(20);
+    .limit(5);
 
   return (
     <div className='flex flex-1 flex-col gap-4 md:gap-6'>
@@ -121,9 +121,14 @@ export default async function Workouts() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
-            <CardTitle>Workout History</CardTitle>
-            <CardDescription>Recent workouts completed</CardDescription>
+          <CardHeader className='flex flex-row items-center'>
+            <div className='grid gap-2'>
+              <CardTitle>Workout History</CardTitle>
+              <CardDescription>Recent workouts completed</CardDescription>
+            </div>
+            <Button asChild size='sm' variant='secondary' className='ml-auto'>
+              <Link href='/workouts/history'>View All</Link>
+            </Button>
           </CardHeader>
           <CardContent className='grid gap-6'>
             <Table>
