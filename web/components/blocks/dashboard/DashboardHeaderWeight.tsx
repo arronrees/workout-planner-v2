@@ -13,15 +13,20 @@ export default function DashboardHeaderWeight({ user }: { user: User }) {
   const [totalWeightLifted, setTotalWeightLifted] = useState<number | null>(
     null
   );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchTotalWeightLifted() {
+      setIsLoading(true);
+
       const { data: sets } = await supabase
         .from('workout_set_instance')
         .select('reps, weight')
         .gte('weight', 0)
         .gte('reps', 0)
         .eq('user_id', user.id);
+
+      setIsLoading(false);
 
       if (sets) {
         setTotalWeightLifted(
@@ -35,8 +40,12 @@ export default function DashboardHeaderWeight({ user }: { user: User }) {
     fetchTotalWeightLifted();
   }, [supabase, user]);
 
-  if (!totalWeightLifted) {
+  if (isLoading) {
     return <Skeleton className='h-28 bg-slate-200' />;
+  }
+
+  if (!totalWeightLifted) {
+    return null;
   }
 
   return (

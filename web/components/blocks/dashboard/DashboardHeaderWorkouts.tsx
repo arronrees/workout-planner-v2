@@ -11,13 +11,18 @@ export default function DashboardHeaderWorkouts({ user }: { user: User }) {
   const supabase = createClient();
 
   const [totalWorkouts, setTotalWorkouts] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsLoading(true);
+
     async function fetchTotalWorkouts() {
       const { count } = await supabase
         .from('workout_instance')
         .select('id', { count: 'exact' })
         .eq('user_id', user.id);
+
+      setIsLoading(false);
 
       if (count) {
         setTotalWorkouts(count);
@@ -27,10 +32,13 @@ export default function DashboardHeaderWorkouts({ user }: { user: User }) {
     fetchTotalWorkouts();
   }, [supabase, user]);
 
-  if (!totalWorkouts) {
+  if (isLoading) {
     return <Skeleton className='h-28 bg-slate-200' />;
   }
 
+  if (!totalWorkouts) {
+    return null;
+  }
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>

@@ -11,13 +11,18 @@ export default function DashboardHeaderExercises({ user }: { user: User }) {
   const supabase = createClient();
 
   const [totalSets, setTotalSets] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchTotalSets() {
+      setIsLoading(true);
+
       const { count } = await supabase
         .from('workout_set_instance')
         .select('id', { count: 'exact' })
         .eq('user_id', user.id);
+
+      setIsLoading(false);
 
       if (count) {
         setTotalSets(count);
@@ -27,8 +32,12 @@ export default function DashboardHeaderExercises({ user }: { user: User }) {
     fetchTotalSets();
   }, [supabase, user]);
 
-  if (!totalSets) {
+  if (isLoading) {
     return <Skeleton className='h-28 bg-slate-200' />;
+  }
+
+  if (!totalSets) {
+    return null;
   }
 
   return (
