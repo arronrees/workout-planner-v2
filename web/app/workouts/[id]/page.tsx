@@ -226,7 +226,7 @@ export default async function Workout({ params }: { params: { id: string } }) {
                               (
                                 set: Database['public']['Tables']['workout_set_instance']['Row']
                               ) => {
-                                val += set.weight || 0 * (set.reps || 1);
+                                val += (set.weight ?? 0) * (set.reps ?? 1);
                               }
                             );
 
