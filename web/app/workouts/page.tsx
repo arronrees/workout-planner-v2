@@ -42,8 +42,7 @@ export default async function Workouts() {
   const { data: workouts } = await supabase
     .from('workouts')
     .select('*, workout_exercises(id)')
-    .eq('user_id', user.id)
-    .limit(8);
+    .eq('user_id', user.id);
 
   const { data: workoutHistory } = await supabase
     .from('workout_instance')
@@ -52,7 +51,7 @@ export default async function Workouts() {
     )
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
-    .limit(5);
+    .limit(10);
 
   return (
     <div className='flex flex-1 flex-col gap-4 md:gap-6'>
