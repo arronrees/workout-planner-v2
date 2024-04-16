@@ -46,9 +46,7 @@ export default async function Workouts() {
 
   const { data: workoutHistory } = await supabase
     .from('workout_instance')
-    .select(
-      '*, workout_exercise_instance(*, workout_set_instance(*), exercise(*))'
-    )
+    .select('*, workout_exercise_instance(*, workout_set_instance(*))')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(10);

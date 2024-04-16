@@ -33,7 +33,7 @@ export default async function FavouriteExercises({ user }: Props) {
               {exercise.workout_exercise_instance.reduce((arr, curr) => {
                 return (
                   arr +
-                  curr.workout_set_instance.reduce((a, c) => {
+                  curr.workout_set_instance.reduce((a) => {
                     return a + 1;
                   }, 0)
                 );

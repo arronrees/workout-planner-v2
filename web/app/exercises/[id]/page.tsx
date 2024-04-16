@@ -42,9 +42,10 @@ export default async function Exercises({
   }
 
   const { data: exercise } = await supabase
-    .from('exercise')
-    .select('name, id')
+    .from('workout_exercises')
+    .select('*, exercise(name)')
     .eq('id', params.id)
+    .eq('user_id', user.id)
     .single();
 
   if (!exercise) {
@@ -54,7 +55,7 @@ export default async function Exercises({
   const { data: instances } = await supabase
     .from('workout_exercise_instance')
     .select('id, created_at, workout_set_instance(reps, weight)')
-    .eq('exercise_id', params.id)
+    .eq('workout_exercise_id', params.id)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
@@ -71,7 +72,7 @@ export default async function Exercises({
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{exercise.name}</BreadcrumbPage>
+            <BreadcrumbPage>{exercise.exercise?.name}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -80,7 +81,7 @@ export default async function Exercises({
         <Card>
           <CardHeader className='flex flex-col gap-1 xs:flex-row xs:items-end xs:justify-between'>
             <div className='grid gap-2'>
-              <CardTitle>{exercise.name}</CardTitle>
+              <CardTitle>{exercise.exercise?.name}</CardTitle>
               <CardDescription>
                 View the progression of this exercise
               </CardDescription>

@@ -66,9 +66,9 @@ export default async function Workout({ params }: { params: { id: string } }) {
     .select(
       '*, workout_exercise_instance(*, workout_set_instance(*), exercise(*))'
     )
+    .eq('workout_id', workout.id)
     .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .eq('workout_id', workout.id);
+    .order('created_at', { ascending: false });
 
   return (
     <div className='flex flex-1 flex-col gap-4 md:gap-6'>

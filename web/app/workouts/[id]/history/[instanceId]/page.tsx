@@ -47,8 +47,8 @@ export default async function Workout({
     .select(
       '*, workout_exercise_instance(*, workout_set_instance(*), exercise(*))'
     )
-    .eq('user_id', user.id)
     .eq('id', params.instanceId)
+    .eq('user_id', user.id)
     .single();
 
   if (!workout) {

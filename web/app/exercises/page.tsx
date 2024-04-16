@@ -51,25 +51,26 @@ export default async function Exercises() {
   lastWeekEnd.setDate(thisWeekStart.getDate() - 1);
 
   const { data: allExercises } = await supabase
-    .from('exercise')
-    .select('name, id, workout_exercise_instance(id)')
-    .filter('workout_exercise_instance', 'not.is', null)
-    .eq('workout_exercise_instance.user_id', user.id);
+    .from('workout_exercises')
+    .select('id, exercise(name, id), workout_exercise_instance(id)')
+    .eq('user_id', user.id);
 
   const { data: exercisesThisWeek } = await supabase
-    .from('exercise')
-    .select('name, id, workout_exercise_instance(id, workout_set_instance(*))')
-    .filter('workout_exercise_instance', 'not.is', null)
-    .gt('workout_exercise_instance.created_at', thisWeekStart.toISOString())
-    .eq('workout_exercise_instance.user_id', user.id);
+    .from('workout_exercises')
+    .select(
+      '*, workout_sets(*), exercise(name, id), workout_exercise_instance(id, workout_set_instance(*))'
+    )
+    .eq('workout_exercise_instance.user_id', user.id)
+    .gt('workout_exercise_instance.created_at', thisWeekStart.toISOString());
 
   const { data: exercisesLastWeek } = await supabase
-    .from('exercise')
-    .select('name, id, workout_exercise_instance(id, workout_set_instance(*))')
-    .filter('workout_exercise_instance', 'not.is', null)
+    .from('workout_exercises')
+    .select(
+      '*, workout_sets(*), exercise(name, id), workout_exercise_instance(id, workout_set_instance(*))'
+    )
+    .eq('workout_exercise_instance.user_id', user.id)
     .gt('workout_exercise_instance.created_at', lastWeekStart.toISOString())
-    .lt('workout_exercise_instance.created_at', lastWeekEnd.toISOString())
-    .eq('workout_exercise_instance.user_id', user.id);
+    .lt('workout_exercise_instance.created_at', lastWeekEnd.toISOString());
 
   return (
     <div className='flex flex-1 flex-col gap-4 md:gap-6'>
@@ -166,7 +167,9 @@ export default async function Exercises() {
                     return (
                       <TableRow key={exercise.id}>
                         <TableCell>
-                          <div className='font-medium'>{exercise.name}</div>
+                          <div className='font-medium'>
+                            {exercise.exercise?.name}
+                          </div>
                         </TableCell>
                         <TableCell className='font-medium'>
                           {thisWeekWeight}kg

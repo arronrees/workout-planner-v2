@@ -14,10 +14,9 @@ export default function ExercisePB({ id, user }: { id: string; user: User }) {
       if (id) {
         const { data } = await supabase
           .from('workout_set_instance')
-          .select('*, workout_exercise_instance(exercise_id)')
-          .filter('workout_exercise_instance', 'not.is', null)
+          .select('*')
+          .eq('workout_exercise_id', id)
           .eq('user_id', user.id)
-          .eq('workout_exercise_instance.exercise_id', id)
           .order('weight', { ascending: false })
           .limit(1)
           .single();
