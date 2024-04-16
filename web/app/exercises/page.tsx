@@ -119,7 +119,10 @@ export default async function Exercises() {
                               acc +
                               curr.workout_set_instance.reduce(
                                 (nacc: number, ncurr: any) => {
-                                  return nacc + (ncurr.weight ?? 0);
+                                  return (
+                                    nacc +
+                                    (ncurr.weight ?? 0) * (ncurr.reps ?? 0)
+                                  );
                                 },
                                 0
                               )
@@ -137,7 +140,10 @@ export default async function Exercises() {
                               acc +
                               curr.workout_set_instance.reduce(
                                 (nacc: number, ncurr: any) => {
-                                  return nacc + (ncurr.weight ?? 0);
+                                  return (
+                                    nacc +
+                                    (ncurr.weight ?? 0) * (ncurr.reps ?? 0)
+                                  );
                                 },
                                 0
                               )
