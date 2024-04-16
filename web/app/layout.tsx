@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import { Toaster } from '@/components/ui/toaster';
+import ProgressBarProvider from '@/components/layout/ProgressBarProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Header />
-        <div className='p-6 text-sm bg-slate-50 min-h-screen'>
-          <main>{children}</main>
-          <Toaster />
-        </div>
+        <ProgressBarProvider>
+          <Header />
+          <div className='p-6 text-sm bg-slate-50 min-h-screen'>
+            <main>{children}</main>
+            <Toaster />
+          </div>
+        </ProgressBarProvider>
       </body>
     </html>
   );
