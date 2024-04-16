@@ -1,42 +1,21 @@
-'use client';
-
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { createClient } from '@/utils/supabase/client';
 import { Dumbbell } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 import { User } from '@supabase/supabase-js';
 
-export default function DashboardHeaderExercises({ user }: { user: User }) {
+export default async function DashboardHeaderExercises({
+  user,
+}: {
+  user: User;
+}) {
   const supabase = createClient();
 
-  const [totalSets, setTotalSets] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { count } = await supabase
+    .from('workout_set_instance')
+    .select('id', { count: 'exact' })
+    .eq('user_id', user.id);
 
-  useEffect(() => {
-    async function fetchTotalSets() {
-      setIsLoading(true);
-
-      const { count } = await supabase
-        .from('workout_set_instance')
-        .select('id', { count: 'exact' })
-        .eq('user_id', user.id);
-
-      setIsLoading(false);
-
-      if (count) {
-        setTotalSets(count);
-      }
-    }
-
-    fetchTotalSets();
-  }, [supabase, user]);
-
-  if (isLoading) {
-    return <Skeleton className='h-28 bg-slate-200' />;
-  }
-
-  if (!totalSets) {
+  if (!count) {
     return null;
   }
 
@@ -48,7 +27,7 @@ export default function DashboardHeaderExercises({ user }: { user: User }) {
       </CardHeader>
       <CardContent>
         <div className='text-2xl font-bold'>
-          {new Intl.NumberFormat('en-gb', {}).format(totalSets)}
+          {new Intl.NumberFormat('en-gb', {}).format(count)}
         </div>
       </CardContent>
     </Card>
