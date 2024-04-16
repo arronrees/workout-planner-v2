@@ -53,20 +53,23 @@ export default async function Exercises() {
   const { data: allExercises } = await supabase
     .from('exercise')
     .select('name, id, workout_exercise_instance(id)')
-    .filter('workout_exercise_instance', 'not.is', null);
+    .filter('workout_exercise_instance', 'not.is', null)
+    .eq('workout_exercise_instance.user_id', user.id);
 
   const { data: exercisesThisWeek } = await supabase
     .from('exercise')
     .select('name, id, workout_exercise_instance(id, workout_set_instance(*))')
     .filter('workout_exercise_instance', 'not.is', null)
-    .gt('workout_exercise_instance.created_at', thisWeekStart.toISOString());
+    .gt('workout_exercise_instance.created_at', thisWeekStart.toISOString())
+    .eq('workout_exercise_instance.user_id', user.id);
 
   const { data: exercisesLastWeek } = await supabase
     .from('exercise')
     .select('name, id, workout_exercise_instance(id, workout_set_instance(*))')
     .filter('workout_exercise_instance', 'not.is', null)
     .gt('workout_exercise_instance.created_at', lastWeekStart.toISOString())
-    .lt('workout_exercise_instance.created_at', lastWeekEnd.toISOString());
+    .lt('workout_exercise_instance.created_at', lastWeekEnd.toISOString())
+    .eq('workout_exercise_instance.user_id', user.id);
 
   return (
     <div className='flex flex-1 flex-col gap-4 md:gap-6'>

@@ -55,6 +55,7 @@ export default async function Exercises({
     .from('workout_exercise_instance')
     .select('id, created_at, workout_set_instance(reps, weight)')
     .eq('exercise_id', params.id)
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   return (
