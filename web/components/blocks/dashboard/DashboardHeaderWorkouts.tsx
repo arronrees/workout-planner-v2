@@ -12,7 +12,7 @@ export default async function DashboardHeaderWorkouts({
 
   const { count } = await supabase
     .from('workout_instance')
-    .select('id', { count: 'exact' })
+    .select('', { count: 'exact' })
     .eq('user_id', user.id);
 
   if (!count) {
