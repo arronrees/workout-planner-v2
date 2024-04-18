@@ -18,8 +18,6 @@ export default async function FavouriteExercises({ user }: Props) {
     .order('count_workout_exercises', { ascending: false })
     .limit(5);
 
-  console.log(exercises);
-
   return (
     <>
       {exercises?.map((exercise) => (
